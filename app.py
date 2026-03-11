@@ -200,7 +200,7 @@ if uploaded_file:
         
         grid_df = pd.DataFrame(layout)
         
-        # Remove completely empty shelves
+        # Remove empty shelves
         grid_df = grid_df.dropna(how="all")
         
         grid_df.columns = [f"Pos {i+1}" for i in range(len(grid_df.columns))]
