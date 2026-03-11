@@ -9,8 +9,8 @@ st.title("Dynamic Planogram Builder")
 uploaded_file = st.file_uploader("Upload Product CSV")
 
 # Planogram dimensions
-rows = st.number_input("Shelves", 1, 20, 6)
-cols = st.number_input("Columns", 1, 50, 10)
+rows = st.number_input("Rows", 1, 20, 11)
+cols = st.number_input("Columns", 1, 50, 4)
 
 if uploaded_file:
 
@@ -46,8 +46,16 @@ if uploaded_file:
     if st.button("Generate Planogram"):
 
         layout = continuous_flow(products, rows, cols)
-
         st.subheader("Planogram Layout")
-
-        for r in layout:
-            st.write(r)
+        
+        # Convert layout to dataframe grid
+        grid_df = pd.DataFrame(layout)
+        grid_df.columns = [f"Pos {i+1}" for i in range(len(grid_df.columns))]
+        
+        # Label rows as shelves
+        grid_df.index = [f"Shelf {i+1}" for i in range(len(grid_df))]
+        
+        st.dataframe(
+            grid_df,
+            use_container_width=True
+        )
