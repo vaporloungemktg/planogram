@@ -109,20 +109,19 @@ def vertical_layout(products, rows, cols):
     row = 0
 
     for p in products:
-
-        brand = p["brand_key"]
+    
         shelves = int(p["shelves_needed"])
-
+        products_list = [p["product_name"]]
+    
         for _ in range(shelves):
-
+    
             if col >= cols:
                 break
-
-            products_list = p["product_names"]
-            grid[row][col] = products_list[_ % len(products_list)]
-
+    
+            grid[row][col] = products_list[0]
+    
             row += 1
-
+    
             if row >= rows:
                 row = 0
                 col += 1
