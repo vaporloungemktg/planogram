@@ -28,12 +28,24 @@ brand_palette = {
 }
 
 
+import random
+
+
 def highlight_brands(val):
 
     if val is None:
         return ""
 
-    color = brand_palette.get(val, "#444")
+    if val not in brand_palette:
+
+        # Generate random readable color
+        r = random.randint(80, 200)
+        g = random.randint(80, 200)
+        b = random.randint(80, 200)
+
+        brand_palette[val] = f"#{r:02x}{g:02x}{b:02x}"
+
+    color = brand_palette[val]
 
     return f"background-color: {color}; color: white; font-weight: bold"
 
