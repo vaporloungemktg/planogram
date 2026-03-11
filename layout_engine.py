@@ -50,7 +50,7 @@ def continuous_flow(products, rows, cols):
 
         # Planogram merchandising rule
         width = shelves_per_strength
-        height = strengths
+        height = math.ceil(shelves_needed / width)
 
         placed = False
 
