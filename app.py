@@ -26,7 +26,6 @@ brand_palette = {
     "NiQ": "#7cd859",
     "Zimo": "#8dd3c7",
     "BSX": "#4dd07f"
-    "COMING SOON": "#FF0000"
 }
 
 
