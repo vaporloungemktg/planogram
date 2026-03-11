@@ -1,7 +1,9 @@
 import streamlit as st
 import pandas as pd
 import math
+import random
 
+from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode
 from layout_engine import continuous_flow, vertical_layout
 
 
@@ -210,11 +212,39 @@ if uploaded_file:
         
         table_height = (len(grid_df) * 45) + 40
         
-        st.dataframe(
-            grid_df.style.map(highlight_brands),
-            use_container_width=True,
+        # Reset index so AG Grid can manipulate it
+        grid_df_reset = grid_df.reset_index()
+        
+        # Build grid options
+        gb = GridOptionsBuilder.from_dataframe(grid_df_reset)
+        
+        gb.configure_default_column(
+            editable=True,
+            resizable=True
+        )
+        
+        gb.configure_grid_options(
+            rowDragManaged=True,
+            animateRows=True
+        )
+        
+        grid_options = gb.build()
+        
+        grid_response = AgGrid(
+            grid_df_reset,
+            gridOptions=grid_options,
+            update_mode=GridUpdateMode.MODEL_CHANGED,
+            fit_columns_on_grid_load=True,
             height=table_height
         )
+        
+        # Capture edited grid
+        edited_df = pd.DataFrame(grid_response["data"])
+        
+        # Restore shelf index
+        edited_df = edited_df.set_index("Shelf")
+        
+        grid_df = edited_df
         # -----------------------------
         # Download Planogram
         # -----------------------------
