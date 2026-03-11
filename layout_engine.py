@@ -1,26 +1,27 @@
-import math
-
 def continuous_flow(products, rows, cols):
 
+    # create empty grid
     grid = [[None for _ in range(cols)] for _ in range(rows)]
 
-    row = 0
-    col = 0
+    r = 0
+    c = 0
 
     for p in products:
 
-        height = p["shelves_needed"]
+        brand = p["brand_key"]
+        total_products = int(p["total_products"])
 
-        if row + height > rows:
-            col += 1
-            row = 0
+        for _ in range(total_products):
 
-        if col >= cols:
-            raise Exception("Planogram overflow")
+            grid[r][c] = brand
 
-        for i in range(height):
-            grid[row + i][col] = p["product_name"]
+            c += 1
 
-        row += height
+            if c >= cols:
+                c = 0
+                r += 1
+
+            if r >= rows:
+                raise Exception("Planogram overflow")
 
     return grid
