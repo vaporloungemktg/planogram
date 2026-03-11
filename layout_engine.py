@@ -44,12 +44,13 @@ def continuous_flow(products, rows, cols):
         strengths = int(p["strength_count"])
         capacity = int(p["capacity_per_foot"])
 
+        shelves_needed = int(p["shelves_needed"])
+
         shelves_per_strength = math.ceil(flavors / capacity)
-        shelves_needed = shelves_per_strength * strengths
 
         # Planogram merchandising rule
-        width = min(cols, shelves_per_strength)
-        height = math.ceil(shelves_needed / width)
+        width = shelves_per_strength
+        height = strengths
 
         placed = False
 
