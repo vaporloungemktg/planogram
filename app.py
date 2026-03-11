@@ -1,16 +1,22 @@
 import streamlit as st
 import pandas as pd
 import math
-from layout_engine import continuous_flow
+
+from layout_engine import continuous_flow, vertical_layout
+
+
+# -----------------------------
+# Brand Colors
+# -----------------------------
 
 brand_palette = {
     "Zyn": "#e41a1c",
-    "Wyn": "#ff7f00",
-    "Nic Nac": "#ffd92f",
+    "Wyn": "#fff700",
+    "Nic Nic": "#ffd92f",
     "Pillowz": "#4daf4a",
     "Juice Head": "#00bfc4",
     "Hyde Strips": "#f781bf",
-    "Berserker": "#a65628",
+    "Berker": "#a65628",
     "Mojo": "#66a61e",
     "Zippix": "#a6d854",
     "Velo Plus": "#8da0cb",
@@ -21,6 +27,7 @@ brand_palette = {
     "BSX": "#4dd07f"
 }
 
+
 def highlight_brands(val):
 
     if val is None:
@@ -30,21 +37,35 @@ def highlight_brands(val):
 
     return f"background-color: {color}; color: white; font-weight: bold"
 
+
+# -----------------------------
+# App Title
+# -----------------------------
+
 st.title("Dynamic Planogram Builder")
 
+# -----------------------------
 # Upload CSV
+# -----------------------------
+
 uploaded_file = st.file_uploader("Upload Product CSV")
 
-# Planogram dimensions
+# -----------------------------
+# Fixture dimensions
+# -----------------------------
+
 rows = st.number_input("Rows", 1, 20, 11)
 cols = st.number_input("Columns", 1, 50, 4)
 
+
+# -----------------------------
+# Main App
+# -----------------------------
+
 if uploaded_file:
 
-    # Load CSV
     df = pd.read_csv(uploaded_file)
 
-    # Convert numeric columns
     numeric_columns = [
         "flavor_count",
         "strength_count",
@@ -56,6 +77,10 @@ if uploaded_file:
 
     df = df.dropna(subset=numeric_columns)
 
+    # -----------------------------
+    # Product Calculations
+    # -----------------------------
+
     df["total_products"] = df["flavor_count"] * df["strength_count"]
 
     df["shelves_needed"] = (
@@ -65,9 +90,16 @@ if uploaded_file:
     st.subheader("Product Data")
     st.write(df)
 
-    # ---- ADD BUTTONS HERE ----
+    # -----------------------------
+    # Controls
+    # -----------------------------
 
     st.subheader("Planogram Controls")
+
+    layout_mode = st.radio(
+        "Layout Style",
+        ["Brand Blocking", "Vertical"]
+    )
 
     col1, col2, col3 = st.columns(3)
 
@@ -75,11 +107,17 @@ if uploaded_file:
     generate_tier = col2.button("Optimize by Tier")
     generate_price = col3.button("Optimize by Price")
 
-    # ---- PLANOGRAM GENERATION ----
+    # -----------------------------
+    # Generate Layout
+    # -----------------------------
 
     if generate_default or generate_tier or generate_price:
 
         working_df = df.copy()
+
+        # -----------------------------
+        # Optimization
+        # -----------------------------
 
         if generate_tier:
 
@@ -118,7 +156,21 @@ if uploaded_file:
 
         products = working_df.to_dict("records")
 
-        layout = continuous_flow(products, rows, cols)
+        # -----------------------------
+        # Layout Mode
+        # -----------------------------
+
+        if layout_mode == "Brand Blocking":
+
+            layout = continuous_flow(products, rows, cols)
+
+        else:
+
+            layout = vertical_layout(products, rows, cols)
+
+        # -----------------------------
+        # Metrics
+        # -----------------------------
 
         total_shelves = rows * cols
         used_shelves = working_df["shelves_needed"].sum()
@@ -128,9 +180,14 @@ if uploaded_file:
             f"{used_shelves} / {total_shelves} shelves"
         )
 
+        # -----------------------------
+        # Display Planogram
+        # -----------------------------
+
         st.subheader("Planogram Layout")
 
         grid_df = pd.DataFrame(layout)
+
         grid_df.columns = [f"Pos {i+1}" for i in range(len(grid_df.columns))]
         grid_df.index = [f"Shelf {i+1}" for i in range(len(grid_df))]
 
