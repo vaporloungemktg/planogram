@@ -20,21 +20,19 @@ def continuous_flow(products, rows, cols):
         return True
 
 
-    def place_block(r, c, width, height, brand, shelves):
-    
-        placed = 0
-    
-        for i in range(height):
-            for j in range(width):
-    
-                if placed >= shelves:
-                    break
-    
-                grid[r + i][c + j] = brand
+def place_block(r, c, width, height, brand, shelves):
+
+    placed = 0
+
+    for i in range(height):
+        for j in range(width):
+
+            if placed == shelves:
+                return
+
+            if grid[r+i][c+j] is None:
+                grid[r+i][c+j] = brand
                 placed += 1
-    
-            if placed >= shelves:
-                break
 
 
     for p in products:
