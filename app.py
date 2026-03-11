@@ -207,3 +207,32 @@ if uploaded_file:
             grid_df.style.map(highlight_brands),
             use_container_width=True
         )
+        # -----------------------------
+        # Download Planogram
+        # -----------------------------
+        
+        st.subheader("Download Planogram")
+        
+        csv = grid_df.to_csv(index=True)
+        
+        st.download_button(
+            label="Download Planogram (CSV)",
+            data=csv,
+            file_name="planogram.csv",
+            mime="text/csv",
+        )
+        
+        # Excel download
+        from io import BytesIO
+        
+        excel_buffer = BytesIO()
+        
+        with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
+            grid_df.to_excel(writer, sheet_name="Planogram")
+        
+        st.download_button(
+            label="Download Planogram (Excel)",
+            data=excel_buffer.getvalue(),
+            file_name="planogram.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
