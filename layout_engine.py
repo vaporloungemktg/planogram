@@ -1,47 +1,65 @@
 import math
 
+
 def continuous_flow(products, rows, cols):
 
     grid = [[None for _ in range(cols)] for _ in range(rows)]
 
-    # place largest brands first
+    # Sort largest brands first
     products = sorted(products, key=lambda x: x["shelves_needed"], reverse=True)
 
     def fits(r, c, height, width):
         if r + height > rows or c + width > cols:
             return False
+
         for i in range(height):
             for j in range(width):
                 if grid[r+i][c+j] is not None:
                     return False
+
         return True
 
-    def place(r, c, height, width, brand, shelves):
+
+    def place_block(r, c, width, height, brand, shelves):
         placed = 0
+
         for i in range(height):
             for j in range(width):
+
                 if placed >= shelves:
                     return
+
                 grid[r+i][c+j] = brand
                 placed += 1
+
 
     for p in products:
 
         brand = p["brand_key"]
-        shelves = int(p["shelves_needed"])
+        flavors = int(p["flavor_count"])
+        strengths = int(p["strength_count"])
+        capacity = int(p["capacity_per_foot"])
 
-        width = min(cols, math.ceil(math.sqrt(shelves)))
-        height = math.ceil(shelves / width)
+        shelves_per_strength = math.ceil(flavors / capacity)
+        shelves_needed = shelves_per_strength * strengths
+
+        # Planogram merchandising rule
+        width = shelves_per_strength
+        height = strengths
 
         placed = False
 
-        # search entire grid for a spot the block fits
         for r in range(rows):
+
             if placed:
                 break
+
             for c in range(cols):
+
                 if fits(r, c, height, width):
-                    place(r, c, height, width, brand, shelves)
+
+                    place_block(r, c, width, height, brand, shelves_needed)
+
                     placed = True
                     break
 
