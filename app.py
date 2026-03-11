@@ -17,57 +17,37 @@ if uploaded_file:
     # Load CSV
     df = pd.read_csv(uploaded_file)
 
-# Convert numeric columns safely
-numeric_columns = [
-    "flavor_count",
-    "strength_count",
-    "capacity_per_foot"
-]
+    # Convert numeric columns safely
+    numeric_columns = [
+        "flavor_count",
+        "strength_count",
+        "capacity_per_foot"
+    ]
 
-for col in numeric_columns:
-    df[col] = pd.to_numeric(df[col], errors="coerce")
+    for col in numeric_columns:
+        df[col] = pd.to_numeric(df[col], errors="coerce")
 
-    # Calculate total products
+    # Remove rows with missing numeric values
+    df = df.dropna(subset=numeric_columns)
 
-# Remove rows with missing numeric values
-df = df.dropna(subset=numeric_columns)
+    # Calculate totals
+    df["total_products"] = df["flavor_count"] * df["strength_count"]
 
-# Calculate totals
-df["total_products"] = df["flavor_count"] * df["strength_count"]
-
-# Calculate shelves needed safely
-df["shelves_needed"] = (
-    df["total_products"] / df["capacity_per_foot"]
-).apply(lambda x: math.ceil(x))
+    # Calculate shelves needed
+    df["shelves_needed"] = (
+        df["total_products"] / df["capacity_per_foot"]
+    ).apply(lambda x: math.ceil(x))
 
     st.subheader("Product Data")
     st.write(df)
 
-    # Capacity diagnostics
-    total_shelf_demand = df["shelves_needed"].sum()
-    max_capacity = rows * cols
-
-    st.subheader("Capacity Check")
-    st.write("Total Shelf Demand:", total_shelf_demand)
-    st.write("Grid Capacity:", max_capacity)
-
-    if total_shelf_demand > max_capacity:
-        st.warning("Products exceed available shelf capacity.")
-
-    # Convert dataframe to records for layout engine
     products = df.to_dict("records")
 
     if st.button("Generate Planogram"):
 
         layout = continuous_flow(products, rows, cols)
 
-        if layout is None:
-            st.error(
-                "Planogram overflow: Increase columns or reduce shelf requirements."
-            )
-        else:
+        st.subheader("Planogram Layout")
 
-            st.subheader("Planogram Layout")
-
-            for r in layout:
-                st.write(r)
+        for r in layout:
+            st.write(r)
