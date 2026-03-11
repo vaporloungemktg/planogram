@@ -64,3 +64,38 @@ def continuous_flow(products, rows, cols):
                     break
 
     return grid
+
+
+# -----------------------------------
+# NEW: Vertical Planogram Layout
+# -----------------------------------
+
+def vertical_layout(products, rows, cols):
+
+    grid = [[None for _ in range(cols)] for _ in range(rows)]
+
+    # Largest brands first
+    products = sorted(products, key=lambda x: x["shelves_needed"], reverse=True)
+
+    col = 0
+    row = 0
+
+    for p in products:
+
+        brand = p["brand_key"]
+        shelves = int(p["shelves_needed"])
+
+        for _ in range(shelves):
+
+            if col >= cols:
+                break
+
+            grid[row][col] = brand
+
+            row += 1
+
+            if row >= rows:
+                row = 0
+                col += 1
+
+    return grid
