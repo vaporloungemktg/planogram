@@ -22,7 +22,7 @@ def fits(grid, r, c, height, width, rows, cols):
     return True
 
 
-def place_block(grid, r, c, width, height, brand, shelves):
+def place_block(grid, r, c, width, height, product_names, shelves):
 
     placed = 0
 
@@ -32,7 +32,7 @@ def place_block(grid, r, c, width, height, brand, shelves):
             if placed >= shelves:
                 return
 
-            grid[r+i][c+j] = brand
+            grid[r+i][c+j] = product_names[placed % len(product_names)]
             placed += 1
 
 
@@ -82,7 +82,8 @@ def continuous_flow(products, rows, cols):
 
                     if fits(grid, r, c, height, width, rows, cols):
 
-                        place_block(grid, r, c, width, height, brand, shelves_needed)
+                        product_names = p["product_names"]
+                        place_block(grid, r, c, width, height, product_names, shelves_needed)
 
                         placed = True
                         break
@@ -117,7 +118,8 @@ def vertical_layout(products, rows, cols):
             if col >= cols:
                 break
 
-            grid[row][col] = brand
+            products_list = p["product_names"]
+            grid[row][col] = products_list[_ % len(products_list)]
 
             row += 1
 
