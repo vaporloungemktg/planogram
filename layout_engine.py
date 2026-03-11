@@ -1,27 +1,37 @@
 def continuous_flow(products, rows, cols):
 
-    # create empty grid
-    grid = [[None for _ in range(cols)] for _ in range(rows)]
+    total_shelves = rows * cols
 
-    r = 0
-    c = 0
+    shelves_used = []
 
     for p in products:
 
         brand = p["brand_key"]
-        total_products = int(p["total_products"])
+        shelves_needed = int(p["shelves_needed"])
 
-        for _ in range(total_products):
+        for _ in range(shelves_needed):
+            shelves_used.append(brand)
 
-            grid[r][c] = brand
+    if len(shelves_used) > total_shelves:
+        raise Exception("Planogram overflow")
 
-            c += 1
+    # fill remaining shelves with empty
+    while len(shelves_used) < total_shelves:
+        shelves_used.append(None)
 
-            if c >= cols:
-                c = 0
-                r += 1
+    # convert to grid
+    grid = []
+    index = 0
 
-            if r >= rows:
-                raise Exception("Planogram overflow")
+    for r in range(rows):
+
+        row = []
+
+        for c in range(cols):
+
+            row.append(shelves_used[index])
+            index += 1
+
+        grid.append(row)
 
     return grid
