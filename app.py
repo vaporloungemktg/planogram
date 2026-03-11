@@ -28,12 +28,26 @@ for col in numeric_columns:
     df[col] = pd.to_numeric(df[col], errors="coerce")
 
     # Calculate total products
-    df["total_products"] = df["flavor_count"] * df["strength_count"]
+    # Convert numeric columns
+numeric_columns = [
+    "flavor_count",
+    "strength_count",
+    "capacity_per_foot"
+]
 
-    # Calculate shelves needed
-    df["shelves_needed"] = (
-        df["total_products"] / df["capacity_per_foot"]
-    ).apply(math.ceil)
+for col in numeric_columns:
+    df[col] = pd.to_numeric(df[col], errors="coerce")
+
+# Remove rows with missing numeric values
+df = df.dropna(subset=numeric_columns)
+
+# Calculate totals
+df["total_products"] = df["flavor_count"] * df["strength_count"]
+
+# Calculate shelves needed safely
+df["shelves_needed"] = (
+    df["total_products"] / df["capacity_per_foot"]
+).apply(lambda x: math.ceil(x))
 
     st.subheader("Product Data")
     st.write(df)
