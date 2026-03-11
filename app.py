@@ -228,7 +228,35 @@ if uploaded_file:
         excel_buffer = BytesIO()
         
         with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
+        
             grid_df.to_excel(writer, sheet_name="Planogram")
+        
+            workbook = writer.book
+            worksheet = writer.sheets["Planogram"]
+        
+            # Loop through cells and apply color formatting
+            for r in range(len(grid_df)):
+                for c in range(len(grid_df.columns)):
+        
+                    brand = grid_df.iloc[r, c]
+        
+                    if brand is None:
+                        continue
+        
+                    color = brand_palette.get(brand)
+        
+                    # If brand has no defined color, skip
+                    if color is None:
+                        continue
+        
+                    cell_format = workbook.add_format({
+                        "bg_color": color,
+                        "font_color": "white",
+                        "bold": True,
+                        "align": "center"
+                    })
+        
+                    worksheet.write(r+1, c+1, brand, cell_format)
         
         st.download_button(
             label="Download Planogram (Excel)",
