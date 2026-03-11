@@ -197,15 +197,20 @@ if uploaded_file:
         # -----------------------------
 
         st.subheader("Planogram Layout")
-
+        
         grid_df = pd.DataFrame(layout)
-
+        
         grid_df.columns = [f"Pos {i+1}" for i in range(len(grid_df.columns))]
         grid_df.index = [f"Shelf {i+1}" for i in range(len(grid_df))]
-
+        
+        grid_df.index.name = "Shelf"
+        
+        table_height = (len(grid_df) * 45) + 40
+        
         st.dataframe(
             grid_df.style.map(highlight_brands),
-            use_container_width=True
+            use_container_width=True,
+            height=table_height
         )
         # -----------------------------
         # Download Planogram
