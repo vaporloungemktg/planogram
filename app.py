@@ -80,6 +80,6 @@ if uploaded_file:
         grid_df.index = [f"Shelf {i+1}" for i in range(len(grid_df))]
         
         st.dataframe(
-            grid_df,
+            grid_df.style.map(highlight_brands),
             use_container_width=True
         )
