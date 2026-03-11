@@ -9,6 +9,7 @@ def continuous_flow(products, rows, cols):
     products = sorted(products, key=lambda x: x["shelves_needed"], reverse=True)
 
     def fits(r, c, height, width):
+
         if r + height > rows or c + width > cols:
             return False
 
@@ -20,17 +21,16 @@ def continuous_flow(products, rows, cols):
         return True
 
 
-def place_block(r, c, width, height, brand, shelves):
+    def place_block(r, c, width, height, brand, shelves):
 
-    placed = 0
+        placed = 0
 
-    for i in range(height):
-        for j in range(width):
+        for i in range(height):
+            for j in range(width):
 
-            if placed == shelves:
-                return
+                if placed >= shelves:
+                    return
 
-            if grid[r+i][c+j] is None:
                 grid[r+i][c+j] = brand
                 placed += 1
 
@@ -46,9 +46,9 @@ def place_block(r, c, width, height, brand, shelves):
 
         shelves_per_strength = math.ceil(flavors / capacity)
 
-        # Planogram merchandising rule
+        # merchandising rule
         width = shelves_per_strength
-        height = math.ceil(shelves_needed / width)
+        height = strengths
 
         placed = False
 
