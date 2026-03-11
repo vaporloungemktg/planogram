@@ -17,6 +17,16 @@ if uploaded_file:
     # Load CSV
     df = pd.read_csv(uploaded_file)
 
+# Convert numeric columns safely
+numeric_columns = [
+    "flavor_count",
+    "strength_count",
+    "capacity_per_foot"
+]
+
+for col in numeric_columns:
+    df[col] = pd.to_numeric(df[col], errors="coerce")
+
     # Calculate total products
     df["total_products"] = df["flavor_count"] * df["strength_count"]
 
