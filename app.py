@@ -202,7 +202,7 @@ if uploaded_file:
         grid_df = pd.DataFrame(layout)
         
         # Remove empty shelves
-        grid_df = grid_df.dropna(how="all")
+        grid_df = pd.DataFrame(layout)
         
         grid_df.columns = [str(i+1) for i in range(len(grid_df.columns))]
         grid_df.index = [chr(65+i) for i in range(len(grid_df))]
