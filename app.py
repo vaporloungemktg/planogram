@@ -67,7 +67,13 @@ if uploaded_file:
 
     st.subheader("Product Data")
     st.write(df)
-
+    st.subheader("Planogram Controls")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    generate_default = col1.button("Generate Planogram")
+    generate_tier = col2.button("Optimize by Tier")
+    generate_price = col3.button("Optimize by Price")
     products = df.to_dict("records")
 
 if generate_default or generate_tier or generate_price:
