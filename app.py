@@ -28,15 +28,6 @@ for col in numeric_columns:
     df[col] = pd.to_numeric(df[col], errors="coerce")
 
     # Calculate total products
-    # Convert numeric columns
-numeric_columns = [
-    "flavor_count",
-    "strength_count",
-    "capacity_per_foot"
-]
-
-for col in numeric_columns:
-    df[col] = pd.to_numeric(df[col], errors="coerce")
 
 # Remove rows with missing numeric values
 df = df.dropna(subset=numeric_columns)
