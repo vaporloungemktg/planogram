@@ -5,16 +5,19 @@ from layout_engine import continuous_flow
 
 def highlight_brands(val):
 
-    colors = {
-        "Zyn": "#1f77b4",
-        "Wyn": "#ff7f0e",
-        "Nic Nac": "#2ca02c",
-        "Pillowz": "#9467bd",
-        "Juice Head": "#d62728",
-        "Hyde Strips": "#17becf"
-    }
+    import hashlib
 
-    color = colors.get(val, "#444444")
+    if val is None:
+        return ""
+
+    # generate consistent color from brand name
+    hash_val = int(hashlib.md5(val.encode()).hexdigest(), 16)
+
+    r = (hash_val & 0xFF0000) >> 16
+    g = (hash_val & 0x00FF00) >> 8
+    b = hash_val & 0x0000FF
+
+    color = f"rgb({r},{g},{b})"
 
     return f"background-color: {color}; color: white"
 
