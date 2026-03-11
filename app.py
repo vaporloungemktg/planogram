@@ -44,7 +44,7 @@ if uploaded_file:
     # Load CSV
     df = pd.read_csv(uploaded_file)
 
-    # Convert numeric columns safely
+    # Convert numeric columns
     numeric_columns = [
         "flavor_count",
         "strength_count",
@@ -54,90 +54,87 @@ if uploaded_file:
     for col in numeric_columns:
         df[col] = pd.to_numeric(df[col], errors="coerce")
 
-    # Remove rows with missing numeric values
     df = df.dropna(subset=numeric_columns)
 
-    # Calculate totals
     df["total_products"] = df["flavor_count"] * df["strength_count"]
 
-    # Calculate shelves needed
     df["shelves_needed"] = (
         df["total_products"] / df["capacity_per_foot"]
     ).apply(lambda x: math.ceil(x))
 
     st.subheader("Product Data")
     st.write(df)
+
+    # ---- ADD BUTTONS HERE ----
+
     st.subheader("Planogram Controls")
-    
+
     col1, col2, col3 = st.columns(3)
-    
+
     generate_default = col1.button("Generate Planogram")
     generate_tier = col2.button("Optimize by Tier")
     generate_price = col3.button("Optimize by Price")
-    products = df.to_dict("records")
 
-if generate_default or generate_tier or generate_price:
+    # ---- PLANOGRAM GENERATION ----
 
-    working_df = df.copy()
+    if generate_default or generate_tier or generate_price:
 
-    # Optimization logic
-    if generate_tier:
+        working_df = df.copy()
 
-        tier_priority = {
-            "Premium": 0,
-            "Core": 1,
-            "Value": 2
-        }
+        if generate_tier:
 
-        working_df["tier_rank"] = working_df["tier"].map(tier_priority)
+            tier_priority = {
+                "Premium": 0,
+                "Core": 1,
+                "Value": 2
+            }
 
-        working_df = working_df.sort_values(
-            by=["tier_rank", "shelves_needed"],
-            ascending=[True, False]
+            working_df["tier_rank"] = working_df["tier"].map(tier_priority)
+
+            working_df = working_df.sort_values(
+                by=["tier_rank", "shelves_needed"],
+                ascending=[True, False]
+            )
+
+            st.info("Tier Optimization Active")
+
+        elif generate_price:
+
+            working_df = working_df.sort_values(
+                by=["price", "shelves_needed"],
+                ascending=[False, False]
+            )
+
+            st.info("Price Optimization Active")
+
+        else:
+
+            working_df = working_df.sort_values(
+                by="shelves_needed",
+                ascending=False
+            )
+
+            st.info("Standard Layout")
+
+        products = working_df.to_dict("records")
+
+        layout = continuous_flow(products, rows, cols)
+
+        total_shelves = rows * cols
+        used_shelves = working_df["shelves_needed"].sum()
+
+        st.metric(
+            "Fixture Utilization",
+            f"{used_shelves} / {total_shelves} shelves"
         )
 
-        st.info("Tier Optimization Active")
+        st.subheader("Planogram Layout")
 
-    elif generate_price:
+        grid_df = pd.DataFrame(layout)
+        grid_df.columns = [f"Pos {i+1}" for i in range(len(grid_df.columns))]
+        grid_df.index = [f"Shelf {i+1}" for i in range(len(grid_df))]
 
-        working_df = working_df.sort_values(
-            by=["price", "shelves_needed"],
-            ascending=[False, False]
+        st.dataframe(
+            grid_df.style.map(highlight_brands),
+            use_container_width=True
         )
-
-        st.info("Price Optimization Active")
-
-    else:
-
-        working_df = working_df.sort_values(
-            by="shelves_needed",
-            ascending=False
-        )
-
-        st.info("Standard Layout")
-
-    products = working_df.to_dict("records")
-
-    layout = continuous_flow(products, rows, cols)
-
-    total_shelves = rows * cols
-    used_shelves = working_df["shelves_needed"].sum()
-
-    st.metric(
-        "Fixture Utilization",
-        f"{used_shelves} / {total_shelves} shelves"
-    )
-
-    st.subheader("Planogram Layout")
-
-    # Convert layout to dataframe grid
-    grid_df = pd.DataFrame(layout)
-    grid_df.columns = [f"Pos {i+1}" for i in range(len(grid_df.columns))]
-
-    # Label rows as shelves
-    grid_df.index = [f"Shelf {i+1}" for i in range(len(grid_df))]
-
-    st.dataframe(
-        grid_df.style.map(highlight_brands),
-        use_container_width=True
-    )
