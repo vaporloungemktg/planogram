@@ -204,8 +204,8 @@ if uploaded_file:
         # Remove empty shelves
         grid_df = grid_df.dropna(how="all")
         
-        grid_df.columns = [f"Pos {i+1}" for i in range(len(grid_df.columns))]
-        grid_df.index = [f"Shelf {i+1}" for i in range(len(grid_df))]
+        grid_df.columns = [str(i+1) for i in range(len(grid_df.columns))]
+        grid_df.index = [chr(65+i) for i in range(len(grid_df))]
         
         grid_df.index.name = "Shelf"
         
