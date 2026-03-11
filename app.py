@@ -3,6 +3,21 @@ import pandas as pd
 import math
 from layout_engine import continuous_flow
 
+def highlight_brands(val):
+
+    colors = {
+        "Zyn": "#1f77b4",
+        "Wyn": "#ff7f0e",
+        "Nic Nac": "#2ca02c",
+        "Pillowz": "#9467bd",
+        "Juice Head": "#d62728",
+        "Hyde Strips": "#17becf"
+    }
+
+    color = colors.get(val, "#444444")
+
+    return f"background-color: {color}; color: white"
+
 st.title("Dynamic Planogram Builder")
 
 # Upload CSV
