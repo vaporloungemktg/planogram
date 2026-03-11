@@ -3,23 +3,32 @@ import pandas as pd
 import math
 from layout_engine import continuous_flow
 
-def highlight_brands(val):
+brand_palette = {
+    "Zyn": "#e41a1c",
+    "Wyn": "#ff7f00",
+    "Nic Nac": "#ffd92f",
+    "Pillowz": "#4daf4a",
+    "Juice Head": "#00bfc4",
+    "Hyde Strips": "#f781bf",
+    "Berserker": "#a65628",
+    "Mojo": "#66a61e",
+    "Zippix": "#a6d854",
+    "Velo Plus": "#8da0cb",
+    "On!": "#4dd2ff",
+    "Rogue": "#ff0055",
+    "NiQ": "#7cd859",
+    "Zimo": "#8dd3c7",
+    "BSX": "#4dd07f"
+}
 
-    import hashlib
+def highlight_brands(val):
 
     if val is None:
         return ""
 
-    # generate consistent color from brand name
-    hash_val = int(hashlib.md5(val.encode()).hexdigest(), 16)
+    color = brand_palette.get(val, "#444")
 
-    r = (hash_val & 0xFF0000) >> 16
-    g = (hash_val & 0x00FF00) >> 8
-    b = hash_val & 0x0000FF
-
-    color = f"rgb({r},{g},{b})"
-
-    return f"background-color: {color}; color: white"
+    return f"background-color: {color}; color: white; font-weight: bold"
 
 st.title("Dynamic Planogram Builder")
 
