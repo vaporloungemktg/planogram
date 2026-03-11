@@ -4,7 +4,7 @@ def continuous_flow(products, rows, cols):
 
     grid = [[None for _ in range(cols)] for _ in range(rows)]
 
-    # sort brands by size (largest first)
+    # place largest brands first
     products = sorted(products, key=lambda x: x["shelves_needed"], reverse=True)
 
     r = 0
@@ -15,8 +15,7 @@ def continuous_flow(products, rows, cols):
         brand = p["brand_key"]
         shelves = int(p["shelves_needed"])
 
-        # determine block width
-        width = min(cols, shelves)
+        width = min(cols, math.ceil(math.sqrt(shelves)))
         height = math.ceil(shelves / width)
 
         placed = 0
@@ -34,6 +33,7 @@ def continuous_flow(products, rows, cols):
                     grid[rr][cc] = brand
                     placed += 1
 
+        # move placement cursor
         c += width
 
         if c >= cols:
