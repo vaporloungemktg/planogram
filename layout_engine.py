@@ -2,36 +2,36 @@ def continuous_flow(products, rows, cols):
 
     total_shelves = rows * cols
 
-    shelves_used = []
+    # create list of shelves needed by brand
+    shelf_list = []
 
     for p in products:
-
         brand = p["brand_key"]
-        shelves_needed = int(p["shelves_needed"])
+        shelves = int(p["shelves_needed"])
 
-        for _ in range(shelves_needed):
-            shelves_used.append(brand)
+        for _ in range(shelves):
+            shelf_list.append(brand)
 
-    if len(shelves_used) > total_shelves:
+    if len(shelf_list) > total_shelves:
         raise Exception("Planogram overflow")
 
-    # fill remaining shelves with empty
-    while len(shelves_used) < total_shelves:
-        shelves_used.append(None)
+    # fill remaining shelves
+    while len(shelf_list) < total_shelves:
+        shelf_list.append(None)
 
-    # convert to grid
-    grid = []
+    # create grid
+    grid = [[None for _ in range(cols)] for _ in range(rows)]
+
     index = 0
 
-    for r in range(rows):
+    # block placement algorithm
+    for c in range(cols):
+        for r in range(rows):
 
-        row = []
+            if index >= len(shelf_list):
+                break
 
-        for c in range(cols):
-
-            row.append(shelves_used[index])
+            grid[r][c] = shelf_list[index]
             index += 1
-
-        grid.append(row)
 
     return grid
