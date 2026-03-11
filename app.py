@@ -44,8 +44,17 @@ if uploaded_file:
     products = df.to_dict("records")
 
     if st.button("Generate Planogram"):
-
+    
         layout = continuous_flow(products, rows, cols)
+    
+        total_shelves = rows * cols
+        used_shelves = df["shelves_needed"].sum()
+    
+        st.metric(
+            "Fixture Utilization",
+            f"{used_shelves} / {total_shelves} shelves"
+        )
+    
         st.subheader("Planogram Layout")
         
         # Convert layout to dataframe grid
