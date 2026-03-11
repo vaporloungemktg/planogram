@@ -2,35 +2,43 @@ import math
 
 def continuous_flow(products, rows, cols):
 
-    total_slots = rows * cols
+    grid = [[None for _ in range(cols)] for _ in range(rows)]
 
-    # create full shelf list
-    shelves = []
+    r = 0
+    c = 0
 
     for p in products:
+
         brand = p["brand_key"]
-        count = int(p["shelves_needed"])
+        shelves = int(p["shelves_needed"])
 
-        for _ in range(count):
-            shelves.append(brand)
+        # determine block shape
+        width = min(cols, math.ceil(math.sqrt(shelves)))
+        height = math.ceil(shelves / width)
 
-    # check overflow
-    if len(shelves) > total_slots:
-        raise Exception("Not enough fixture space")
+        placed = 0
 
-    # pad empty shelves
-    while len(shelves) < total_slots:
-        shelves.append(None)
+        for i in range(height):
+            for j in range(width):
 
-    # build grid
-    grid = []
-    idx = 0
+                if placed >= shelves:
+                    break
 
-    for r in range(rows):
-        row = []
-        for c in range(cols):
-            row.append(shelves[idx])
-            idx += 1
-        grid.append(row)
+                rr = r + i
+                cc = c + j
+
+                if rr < rows and cc < cols:
+                    grid[rr][cc] = brand
+                    placed += 1
+
+        # move cursor
+        c += width
+
+        if c >= cols:
+            c = 0
+            r += height
+
+        if r >= rows:
+            break
 
     return grid
