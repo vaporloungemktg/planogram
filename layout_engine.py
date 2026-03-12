@@ -100,26 +100,38 @@ def brand_block_layout(products, rows, cols):
 
 def vertical_layout(products, rows, cols):
     grid = create_grid(rows, cols)
-    # Ensure this stays commented out so app.py controls the order:
-    # products = sorted(products, key=lambda x: x["shelves_needed"], reverse=True)
     
     row = 0
     col = 0
+    
     for p in products:
         shelves = int(p["shelves_needed"])
         product_name = p["product_name"]
         
+        # --- NEW LOGIC: PREVENT SPLITTING ---
+        # Check if the product fits in the CURRENT column
+        remaining_in_col = rows - row
+        
+        if shelves > remaining_in_col:
+            # Not enough room! Move to the top of the next column
+            col += 1
+            row = 0
+            
+        # If we are out of columns entirely, stop
+        if col >= cols:
+            break
+            
+        # Place the product vertically
         for _ in range(shelves):
-            if col >= cols: # If we run out of horizontal space, stop
-                break
+            if row < rows:
+                grid[row][col] = product_name
+                row += 1
             
-            grid[row][col] = product_name
+        # If we hit exactly the bottom after placing, reset to top of next col
+        if row >= rows:
+            row = 0
+            col += 1
             
-            # THE VERTICAL FLOW FIX:
-            row += 1        # Move down to the next shelf
-            if row >= rows: # If we hit the bottom...
-                row = 0     # Go back to the top...
-                col += 1    # ...and move to the next column
     return grid
 
 # -----------------------------
