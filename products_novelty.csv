@@ -1,0 +1,17 @@
+product_name,brand_key,flavor_count,strength_count,capacity_per_foot,price,tier,priority,section
+Zyn,Zyn,8,2,4,12.99,Premium,1,Novelty
+Wyn,Wyn,8,2,4,7.99,Core,7,Novelty
+Nic Nac,Nic Nac,8,2,4,9.99,Core,11,Novelty
+Pillowz,Pillowz,4,2,4,10.99,Premium,9,Novelty
+Juice Head,Juice Head,4,2,4,8.99,Value,12,Novelty
+Hyde Strips,Hyde Strips,4,2,4,10.99,Premium,13,Novelty
+Berserker,Berserker,4,1,4,5.99,Value,14,Novelty
+Mojo,Mojo,4,1,4,5.99,Value,15,Novelty
+Zippix,Zippix,6,1,6,9.99,Value,16,Novelty
+Alps,Alps,4,2,4,9.99,Core,5,Novelty
+Velo Plus,Velo Plus,4,2,4,12.99,Premium,6,Novelty
+On!,On!,5,3,5,12.99,Premium,2,Novelty
+Rogue,Rogue,8,2,4,12.99,Premium,4,Novelty
+NiQ,NiQ,8,2,4,9.99,Core,8,Novelty
+Zimo,Zimo,4,3,4,9.99,Core,3,Novelty
+BSX,BSX,4,2,4,9.99,Core,10,Novelty
