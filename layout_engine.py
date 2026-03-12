@@ -45,7 +45,7 @@ def brand_block_layout(products, rows, cols):
     grid = create_grid(rows, cols)
 
     # Largest brands first
-    products = sorted(products, key=lambda x: x["shelves_needed"], reverse=True)
+    # products = sorted(products, key=lambda x: x["shelves_needed"], reverse=True)
 
     for p in products:
 
