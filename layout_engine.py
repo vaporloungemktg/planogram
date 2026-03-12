@@ -22,7 +22,7 @@ def fits(grid, r, c, height, width, rows, cols):
     return True
 
 
-def place_block(grid, r, c, width, height, product_names, shelves):
+def place_block(grid, r, c, width, height, product_name, shelves):
 
     placed = 0
 
@@ -32,7 +32,7 @@ def place_block(grid, r, c, width, height, product_names, shelves):
             if placed >= shelves:
                 return
 
-            grid[r+i][c+j] = product_names[placed % len(product_names)]
+            grid[r+i][c+j] = product_name
             placed += 1
 
 
@@ -82,7 +82,7 @@ def continuous_flow(products, rows, cols):
 
                     if fits(grid, r, c, height, width, rows, cols):
 
-                        product_names = p["product_names"]
+                        product_names = p["product_name"]
                         place_block(grid, r, c, width, height, product_names, shelves_needed)
 
                         placed = True
