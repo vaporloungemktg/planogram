@@ -103,39 +103,7 @@ if c4.button("VG"):
     st.session_state.default_rows = 8
     st.session_state.default_cols = 11
 
-# Create a list of all possible cell coordinates (e.g., "A1", "A2"...)
-all_cells = [f"{chr(65+r)}{c+1}" for r in range(rows) for c in range(cols)]
 
-dead_zones = st.multiselect(
-    "Select Restricted Cells (Obstacles):",
-    options=all_cells,
-    default=[]
-)
-
-# Convert "A1" into coordinates (row, col)
-restricted_coords = []
-for dz in dead_zones:
-    r_idx = ord(dz[0]) - 65
-    c_idx = int(dz[1:]) - 1
-    restricted_coords.append((r_idx, c_idx))
-    
-uploaded_file = st.file_uploader("Or Upload Custom CSV")
-
-# Add this around Line 105
-all_cells = [f"{chr(65+r)}{c+1}" for r in range(rows) for c in range(cols)]
-
-dead_zones = st.multiselect(
-    "Select Restricted Cells (Obstacles):",
-    options=all_cells,
-    default=[]
-)
-
-# Convert "A1" into coordinates (row, col)
-restricted_coords = []
-for dz in dead_zones:
-    # Handle double digit columns like A10
-    r_idx = ord(dz[0]) - 65
-    c_idx = int(dz[1:]) - 1
     restricted_coords.append((r_idx, c_idx))
 
 # Logic to load the data
