@@ -27,7 +27,8 @@ brand_palette = {
     "Alps": "#3b5ba9",
     "Zimo": "#39a290",
     "On!": "#f15523",
-    "Rogue": "#45b649"
+    "Rogue": "#45b649",
+    "COMING SOON": "#000000"
 }
 
 
