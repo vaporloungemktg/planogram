@@ -40,61 +40,59 @@ def place_block(grid, r, c, width, height, product_name, shelves):
 # Brand Blocking Layout
 # -----------------------------
 
-def brand_block_layout(products, rows, cols, restricted_coords=[]):
-    grid = [[None for _ in range(cols)] for _ in range(rows)]
-    
-    # 1. Pre-fill restricted cells
-    for (r, c) in restricted_coords:
-        if r < rows and c < cols:
-            grid[r][c] = "BLOCKED"
+def brand_block_layout(products, rows, cols):
 
-    # Group products by brand
-    brands = {}
+    grid = create_grid(rows, cols)
+
+    # Largest brands first
+    # products = sorted(products, key=lambda x: x["shelves_needed"], reverse=True)
+
     for p in products:
-        brand = p.get('brand', 'Other')
-        if brand not in brands:
-            brands[brand] = []
-        brands[brand].append(p)
 
-    current_col = 0
-    current_row = 0
+        brand = p["brand_key"]
+        flavors = int(p["flavor_count"])
+        strengths = int(p["strength_count"])
+        capacity = int(p["capacity_per_foot"])
+        shelves_needed = int(p["shelves_needed"])
 
-    for brand, brand_products in brands.items():
-        for p in brand_products:
-            shelves = int(p.get('shelves_needed', 1))
-            placed = False
-            
-            while not placed and current_col < cols:
-                # 2. Check if the NEXT set of cells are available AND not BLOCKED
-                available_count = 0
-                temp_row = current_row
-                
-                # Look ahead to see if we have a continuous clear run for this product
-                while temp_row < rows and available_count < shelves:
-                    if grid[temp_row][current_col] is None:
-                        available_count += 1
-                        temp_row += 1
-                    else:
-                        break # Hit a BLOCKED cell or another product
-                
-                if available_count == shelves:
-                    # Place the product
-                    for i in range(shelves):
-                        grid[current_row + i][current_col] = p['product_name']
-                    current_row += shelves
-                    placed = True
-                else:
-                    # Move down or to the next column if blocked
-                    current_row += 1 
-                    if current_row >= rows:
-                        current_col += 1
-                        current_row = 0
-                        
-                # Safety break to prevent infinite loops if the fixture is too full
-                if current_col >= cols:
+        shelves_per_strength = math.ceil(flavors / capacity)
+
+        # Primary merchandising shape
+        primary_width = shelves_per_strength
+        primary_height = strengths
+
+        # Possible fallback shapes
+        possible_shapes = [
+            (primary_width, primary_height),
+            (primary_height, primary_width),
+            (shelves_needed, 1),
+            (1, shelves_needed)
+        ]
+
+        placed = False
+
+        for width, height in possible_shapes:
+
+            for r in range(rows):
+
+                if placed:
                     break
 
+                for c in range(cols):
+
+                    if fits(grid, r, c, height, width, rows, cols):
+
+                        product_name = p["product_name"]
+                        place_block(grid, r, c, width, height, product_name, shelves_needed)
+
+                        placed = True
+                        break
+
+            if placed:
+                break
+
     return grid
+
 
 
 # -----------------------------
