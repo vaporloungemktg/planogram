@@ -3,7 +3,7 @@ import pandas as pd
 import math
 import random
 
-from layout_engine import continuous_flow, vertical_layout
+from layout_engine import brand_block_layout, vertical_layout
 
 
 # -----------------------------
