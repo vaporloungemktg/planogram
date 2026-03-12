@@ -100,38 +100,31 @@ def brand_block_layout(products, rows, cols):
 
 def vertical_layout(products, rows, cols):
     grid = create_grid(rows, cols)
-    
     row = 0
     col = 0
     
     for p in products:
-        shelves = int(p["shelves_needed"])
-        product_name = p["product_name"]
+        shelves = int(p.get("shelves_needed", 1))
+        product_name = p.get("product_name", "Unknown")
         
-        # --- NEW LOGIC: PREVENT SPLITTING ---
-        # Check if the product fits in the CURRENT column
-        remaining_in_col = rows - row
-        
-        if shelves > remaining_in_col:
-            # Not enough room! Move to the top of the next column
+        # Check if it fits in the current column
+        if (rows - row) < shelves:
             col += 1
             row = 0
             
-        # If we are out of columns entirely, stop
-        if col >= cols:
-            break
-            
-        # Place the product vertically
+        # Place it ONLY if the column is within our grid range
         for _ in range(shelves):
-            if row < rows:
+            if col < cols and row < rows:
                 grid[row][col] = product_name
                 row += 1
-            
-        # If we hit exactly the bottom after placing, reset to top of next col
-        if row >= rows:
-            row = 0
-            col += 1
-            
+            else:
+                # If we've run out of space, we still 'advance' the logic
+                # so the count reflects missing items
+                row += 1 
+                if row >= rows:
+                    row = 0
+                    col += 1
+                    
     return grid
 
 # -----------------------------
