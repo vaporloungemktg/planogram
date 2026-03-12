@@ -71,17 +71,34 @@ github_base = "https://raw.githubusercontent.com/vaporloungemktg/planogram/main/
 
 selected_file = None
 # Initialize session state so the app remembers your choice
+# 1. Initialize session state
 if "data_url" not in st.session_state:
     st.session_state.data_url = None
+if "default_rows" not in st.session_state:
+    st.session_state.default_rows = 11
+if "default_cols" not in st.session_state:
+    st.session_state.default_cols = 4
 
+# 2. Button Logic with Custom Dimensions
 if c1.button("Novelty"):
     st.session_state.data_url = github_base + "products_novelty.csv"
+    st.session_state.default_rows = 11
+    st.session_state.default_cols = 4
+
 if c2.button("Disposables"):
     st.session_state.data_url = github_base + "products_dispo.csv"
+    st.session_state.default_rows = 8
+    st.session_state.default_cols = 9
+
 if c3.button("Salt Nic"):
     st.session_state.data_url = github_base + "products_saltnic.csv"
+    st.session_state.default_rows = 8
+    st.session_state.default_cols = 8
+
 if c4.button("VG"):
     st.session_state.data_url = github_base + "products_vg.csv"
+    st.session_state.default_rows = 8
+    st.session_state.default_cols = 11
 
 uploaded_file = st.file_uploader("Or Upload Custom CSV")
 
@@ -100,8 +117,9 @@ if df is not None:
     # Fixture dimensions
     # -----------------------------
     
-    rows = st.number_input("Rows", 1, 20, 11)
-    cols = st.number_input("Columns", 1, 50, 4)
+    # Change lines 102-103 to this:
+    rows = st.number_input("Rows", 1, 20, st.session_state.default_rows)
+    cols = st.number_input("Columns", 1, 50, st.session_state.default_cols)
     
     
     # -----------------------------
