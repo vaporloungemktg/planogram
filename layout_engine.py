@@ -40,57 +40,46 @@ def place_block(grid, r, c, width, height, product_name, shelves):
 # Brand Blocking Layout
 # -----------------------------
 
-def brand_block_layout(products, rows, cols):
-
+def brand_block_layout(products, rows, cols, restricted_coords=[]):
     grid = create_grid(rows, cols)
-
-    # Largest brands first
-    # products = sorted(products, key=lambda x: x["shelves_needed"], reverse=True)
+    
+    # 1. Pre-fill the grid with obstacles so the 'fits' function can see them
+    for (r, c) in restricted_coords:
+        if r < rows and c < cols:
+            grid[r][c] = "BLOCKED"
 
     for p in products:
-
         brand = p["brand_key"]
         flavors = int(p["flavor_count"])
         strengths = int(p["strength_count"])
         capacity = int(p["capacity_per_foot"])
         shelves_needed = int(p["shelves_needed"])
-
+        
+        # Keep your 2x2 style logic
         shelves_per_strength = math.ceil(flavors / capacity)
-
-        # Primary merchandising shape
         primary_width = shelves_per_strength
         primary_height = strengths
-
-        # Possible fallback shapes
+        
         possible_shapes = [
-            (primary_width, primary_height),
-            (primary_height, primary_width),
-            (shelves_needed, 1),
+            (primary_width, primary_height), 
+            (primary_height, primary_width), 
+            (shelves_needed, 1), 
             (1, shelves_needed)
         ]
-
+        
         placed = False
-
         for width, height in possible_shapes:
-
-            for r in range(rows):
-
-                if placed:
-                    break
-
-                for c in range(cols):
-
+            if placed: break
+            # Search for a spot that is NOT occupied and NOT "BLOCKED"
+            for c in range(cols - width + 1):
+                if placed: break
+                for r in range(rows - height + 1):
+                    # The 'fits' function already checks if grid[r][c] is None
+                    # Since we marked obstacles as "BLOCKED", 'fits' will skip them!
                     if fits(grid, r, c, height, width, rows, cols):
-
-                        product_name = p["product_name"]
-                        place_block(grid, r, c, width, height, product_name, shelves_needed)
-
+                        place_block(grid, r, c, width, height, p["product_name"], shelves_needed)
                         placed = True
                         break
-
-            if placed:
-                break
-
     return grid
 
 
