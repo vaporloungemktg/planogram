@@ -40,7 +40,7 @@ def place_block(grid, r, c, width, height, product_name, shelves):
 # Brand Blocking Layout
 # -----------------------------
 
-def continuous_flow(products, rows, cols):
+def brand_block_layout(products, rows, cols):
 
     grid = create_grid(rows, cols)
 
