@@ -92,243 +92,243 @@ elif uploaded_file:
 if df is not None:
     # Your existing code (indent everything below this line!)
 
-# -----------------------------
-# Fixture dimensions
-# -----------------------------
-
-rows = st.number_input("Rows", 1, 20, 11)
-cols = st.number_input("Columns", 1, 50, 4)
-
-
-# -----------------------------
-# Main App
-# -----------------------------
-
-if uploaded_file:
-
-    df = pd.read_csv(uploaded_file)
-
-    numeric_columns = [
-        "flavor_count",
-        "strength_count",
-        "capacity_per_foot"
-    ]
-
-    for col in numeric_columns:
-        df[col] = pd.to_numeric(df[col], errors="coerce")
-
-    df = df.dropna(subset=numeric_columns)
-
     # -----------------------------
-    # Product Calculations
+    # Fixture dimensions
     # -----------------------------
-
-    df["total_products"] = df["flavor_count"] * df["strength_count"]
-
-    df["shelves_needed"] = (
-        df["total_products"] / df["capacity_per_foot"]
-    ).apply(lambda x: math.ceil(x))
-
-    st.subheader("Product Data")
-    st.write(df)
-
+    
+    rows = st.number_input("Rows", 1, 20, 11)
+    cols = st.number_input("Columns", 1, 50, 4)
+    
+    
     # -----------------------------
-    # Controls
+    # Main App
     # -----------------------------
-
-    st.subheader("Planogram Controls")
     
-    layout_mode = st.radio(
-        "Layout Style",
-        ["Brand Blocking", "Vertical"]
-    )
+    if uploaded_file:
     
-    # Row 1
-    col1, col2, col3 = st.columns(3)
+        df = pd.read_csv(uploaded_file)
     
-    generate_default = col1.button("Generate Planogram")
-    generate_tier = col2.button("Optimize by Tier")
-    generate_price = col3.button("Optimize by Price")
+        numeric_columns = [
+            "flavor_count",
+            "strength_count",
+            "capacity_per_foot"
+        ]
     
-    # Row 2
-    col4, col5, col6 = st.columns(3)
+        for col in numeric_columns:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
     
-    generate_alpha = col4.button("Optimize Alphabetically")
-    generate_priority = col5.button("Optimize by Priority")
-
-    # -----------------------------
-    # Generate Layout
-    # -----------------------------
-
-    if generate_default or generate_tier or generate_price or generate_alpha or generate_priority:
-
-        working_df = df.copy()
-
-        # -----------------------------
-        # Optimization
-        # -----------------------------
-        
-        if generate_tier:
-        
-            tier_priority = {
-                "Premium": 0,
-                "Core": 1,
-                "Value": 2
-            }
-        
-            working_df["tier_rank"] = working_df["tier"].map(tier_priority)
-        
-            working_df = working_df.sort_values(
-                by=["tier_rank", "shelves_needed"],
-                ascending=[True, False]
-            )
-        
-            st.info("Tier Optimization Active")
-        
-        
-        elif generate_price:
-        
-            working_df = working_df.sort_values(
-                by=["price", "shelves_needed"],
-                ascending=[False, False]
-            )
-        
-            st.info("Price Optimization Active")
-        
-        
-        elif generate_alpha:
-            # Sort by product_name first, then by size/shelves needed
-            working_df = working_df.sort_values(
-                by=["product_name", "shelves_needed"], 
-                ascending=[True, False]
-            )
-            st.info("Alphabetical Optimization Active")
-        
-        
-        elif generate_priority:
-        
-            working_df = working_df.sort_values(
-                by=["priority", "shelves_needed"],
-                ascending=[True, False]
-            )
-        
-            st.info("Priority Optimization Active")
-        
-               
-        else:
-        
-            working_df = working_df.sort_values(
-                by="shelves_needed",
-                ascending=False
-            )
-        
-            st.info("Standard Layout")
-
-
-        
-        # -----------------------------
-        # Layout Mode
-        # -----------------------------
-
-        # Convert the DataFrame to a list of dictionaries so the engine can read it
-        product_list = working_df.to_dict('records')
+        df = df.dropna(subset=numeric_columns)
     
-        if layout_mode == "Brand Blocking":
-            layout = brand_block_layout(product_list, rows, cols)
-        elif layout_mode == "Vertical":
-            layout = vertical_layout(product_list, rows, cols)
-
         # -----------------------------
-        # Metrics
+        # Product Calculations
         # -----------------------------
-
-        total_shelves = rows * cols
-        used_shelves = working_df["shelves_needed"].sum()
-
-        st.metric(
-            "Fixture Utilization",
-            f"{used_shelves} / {total_shelves} shelves"
-        )
-
+    
+        df["total_products"] = df["flavor_count"] * df["strength_count"]
+    
+        df["shelves_needed"] = (
+            df["total_products"] / df["capacity_per_foot"]
+        ).apply(lambda x: math.ceil(x))
+    
+        st.subheader("Product Data")
+        st.write(df)
+    
         # -----------------------------
-        # Display Planogram
+        # Controls
         # -----------------------------
-
-        st.subheader("Planogram Layout")
+    
+        st.subheader("Planogram Controls")
         
-        grid_df = pd.DataFrame(layout)
-        
-        # Remove empty shelves
-        grid_df = pd.DataFrame(layout)
-
-        grid_df = grid_df.fillna("COMING SOON")
-        
-        grid_df.columns = [str(i+1) for i in range(len(grid_df.columns))]
-        grid_df.index = [chr(65+i) for i in range(len(grid_df))]
-        
-        grid_df.index.name = "Shelf"
-        
-        table_height = (len(grid_df) * 45) + 40
-        
-        st.dataframe(
-            grid_df.style.map(highlight_brands),
-            use_container_width=True,
-            height=table_height
-        )
-        # -----------------------------
-        # Download Planogram
-        # -----------------------------
-        
-        st.subheader("Download Planogram")
-        
-        csv = grid_df.to_csv(index=True)
-        
-        st.download_button(
-            label="Download Planogram (CSV)",
-            data=csv,
-            file_name="planogram.csv",
-            mime="text/csv",
+        layout_mode = st.radio(
+            "Layout Style",
+            ["Brand Blocking", "Vertical"]
         )
         
-        # Excel download
-        from io import BytesIO
+        # Row 1
+        col1, col2, col3 = st.columns(3)
         
-        excel_buffer = BytesIO()
+        generate_default = col1.button("Generate Planogram")
+        generate_tier = col2.button("Optimize by Tier")
+        generate_price = col3.button("Optimize by Price")
         
-        with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
+        # Row 2
+        col4, col5, col6 = st.columns(3)
         
-            grid_df.to_excel(writer, sheet_name="Planogram")
+        generate_alpha = col4.button("Optimize Alphabetically")
+        generate_priority = col5.button("Optimize by Priority")
+    
+        # -----------------------------
+        # Generate Layout
+        # -----------------------------
+    
+        if generate_default or generate_tier or generate_price or generate_alpha or generate_priority:
+    
+            working_df = df.copy()
+    
+            # -----------------------------
+            # Optimization
+            # -----------------------------
+            
+            if generate_tier:
+            
+                tier_priority = {
+                    "Premium": 0,
+                    "Core": 1,
+                    "Value": 2
+                }
+            
+                working_df["tier_rank"] = working_df["tier"].map(tier_priority)
+            
+                working_df = working_df.sort_values(
+                    by=["tier_rank", "shelves_needed"],
+                    ascending=[True, False]
+                )
+            
+                st.info("Tier Optimization Active")
+            
+            
+            elif generate_price:
+            
+                working_df = working_df.sort_values(
+                    by=["price", "shelves_needed"],
+                    ascending=[False, False]
+                )
+            
+                st.info("Price Optimization Active")
+            
+            
+            elif generate_alpha:
+                # Sort by product_name first, then by size/shelves needed
+                working_df = working_df.sort_values(
+                    by=["product_name", "shelves_needed"], 
+                    ascending=[True, False]
+                )
+                st.info("Alphabetical Optimization Active")
+            
+            
+            elif generate_priority:
+            
+                working_df = working_df.sort_values(
+                    by=["priority", "shelves_needed"],
+                    ascending=[True, False]
+                )
+            
+                st.info("Priority Optimization Active")
+            
+                   
+            else:
+            
+                working_df = working_df.sort_values(
+                    by="shelves_needed",
+                    ascending=False
+                )
+            
+                st.info("Standard Layout")
+    
+    
+            
+            # -----------------------------
+            # Layout Mode
+            # -----------------------------
+    
+            # Convert the DataFrame to a list of dictionaries so the engine can read it
+            product_list = working_df.to_dict('records')
         
-            workbook = writer.book
-            worksheet = writer.sheets["Planogram"]
-        
-            # Loop through cells and apply color formatting
-            for r in range(len(grid_df)):
-                for c in range(len(grid_df.columns)):
-        
-                    brand = grid_df.iloc[r, c]
-        
-                    if brand is None:
-                        continue
-        
-                    color = brand_palette.get(brand)
-        
-                    # If brand has no defined color, skip
-                    if color is None:
-                        continue
-        
-                    cell_format = workbook.add_format({
-                        "bg_color": color,
-                        "font_color": "white",
-                        "bold": True,
-                        "align": "center"
-                    })
-        
-                    worksheet.write(r+1, c+1, brand, cell_format)
-        
-        st.download_button(
-            label="Download Planogram (Excel)",
-            data=excel_buffer.getvalue(),
-            file_name="planogram.xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
+            if layout_mode == "Brand Blocking":
+                layout = brand_block_layout(product_list, rows, cols)
+            elif layout_mode == "Vertical":
+                layout = vertical_layout(product_list, rows, cols)
+    
+            # -----------------------------
+            # Metrics
+            # -----------------------------
+    
+            total_shelves = rows * cols
+            used_shelves = working_df["shelves_needed"].sum()
+    
+            st.metric(
+                "Fixture Utilization",
+                f"{used_shelves} / {total_shelves} shelves"
+            )
+    
+            # -----------------------------
+            # Display Planogram
+            # -----------------------------
+    
+            st.subheader("Planogram Layout")
+            
+            grid_df = pd.DataFrame(layout)
+            
+            # Remove empty shelves
+            grid_df = pd.DataFrame(layout)
+    
+            grid_df = grid_df.fillna("COMING SOON")
+            
+            grid_df.columns = [str(i+1) for i in range(len(grid_df.columns))]
+            grid_df.index = [chr(65+i) for i in range(len(grid_df))]
+            
+            grid_df.index.name = "Shelf"
+            
+            table_height = (len(grid_df) * 45) + 40
+            
+            st.dataframe(
+                grid_df.style.map(highlight_brands),
+                use_container_width=True,
+                height=table_height
+            )
+            # -----------------------------
+            # Download Planogram
+            # -----------------------------
+            
+            st.subheader("Download Planogram")
+            
+            csv = grid_df.to_csv(index=True)
+            
+            st.download_button(
+                label="Download Planogram (CSV)",
+                data=csv,
+                file_name="planogram.csv",
+                mime="text/csv",
+            )
+            
+            # Excel download
+            from io import BytesIO
+            
+            excel_buffer = BytesIO()
+            
+            with pd.ExcelWriter(excel_buffer, engine="xlsxwriter") as writer:
+            
+                grid_df.to_excel(writer, sheet_name="Planogram")
+            
+                workbook = writer.book
+                worksheet = writer.sheets["Planogram"]
+            
+                # Loop through cells and apply color formatting
+                for r in range(len(grid_df)):
+                    for c in range(len(grid_df.columns)):
+            
+                        brand = grid_df.iloc[r, c]
+            
+                        if brand is None:
+                            continue
+            
+                        color = brand_palette.get(brand)
+            
+                        # If brand has no defined color, skip
+                        if color is None:
+                            continue
+            
+                        cell_format = workbook.add_format({
+                            "bg_color": color,
+                            "font_color": "white",
+                            "bold": True,
+                            "align": "center"
+                        })
+            
+                        worksheet.write(r+1, c+1, brand, cell_format)
+            
+            st.download_button(
+                label="Download Planogram (Excel)",
+                data=excel_buffer.getvalue(),
+                file_name="planogram.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
