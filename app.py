@@ -131,12 +131,32 @@ if df is not None:
 
     # Create a list of all possible cell coordinates (e.g., "A1", "A2"...)
     all_cells = [f"{chr(65+r)}{c+1}" for r in range(rows) for c in range(cols)]
+        
+    st.subheader("Visual Obstacle Mapper")
+    st.caption("Check the boxes to mark physical obstacles (pillars, bars, etc.)")
     
-    dead_zones = st.multiselect(
-        "Select Restricted Cells (Obstacles):",
-        options=all_cells,
-        default=[]
+    # 1. Create a blank DataFrame representing your fixture
+    map_data = pd.DataFrame(
+        False, 
+        index=[chr(65+i) for i in range(rows)], 
+        columns=[str(i+1) for i in range(cols)]
     )
+    
+    # 2. Display the interactive grid
+    # The user clicks checkboxes here
+    edited_map = st.data_editor(
+        map_data,
+        key="obstacle_editor",
+        use_container_width=True,
+        column_config={str(i+1): st.column_config.CheckboxColumn(required=True) for i in range(cols)}
+    )
+    
+    # 3. Convert those checked boxes into your restricted_coords list
+    restricted_coords = []
+    for r_idx, row_label in enumerate(edited_map.index):
+        for c_idx, col_label in enumerate(edited_map.columns):
+            if edited_map.iloc[r_idx, c_idx] == True:
+                restricted_coords.append((r_idx, c_idx)))
 
 # Convert "A1" into coordinates (row, col)
 restricted_coords = []
