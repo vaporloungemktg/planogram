@@ -100,34 +100,36 @@ def brand_block_layout(products, rows, cols):
 
 def vertical_layout(products, rows, cols):
     grid = create_grid(rows, cols)
-    row = 0
-    col = 0
+    # Work with a copy so we can 'pop' items off as they are placed
+    remaining_products = products.copy()
     
-    for p in products:
-        shelves = int(p.get("shelves_needed", 1))
-        product_name = p.get("product_name", "Unknown")
-        
-        # 1. Check if the product fits in the remaining rows of this column
-        if (rows - row) < shelves:
-            col += 1 # Move to top of next column
-            row = 0
+    for c in range(cols):
+        for r in range(rows):
+            # Skip if this cell was already filled by a multi-shelf product
+            if grid[r][c] is not None:
+                continue
+                
+            # Calculate how many consecutive empty rows are left in this column
+            space_available = 0
+            for i in range(r, rows):
+                if grid[i][c] is None:
+                    space_available += 1
+                else:
+                    break
             
-        # 2. Place the product
-        for _ in range(shelves):
-            # IMPORTANT: We only write to the grid if we are inside the 11x4 area
-            if col < cols and row < rows:
-                grid[row][col] = product_name
-                row += 1
-            else:
-                # If we are outside the 11x4 area, we still 'advance' the row
-                # This ensures the product is 'processed' but just not visible
-                row += 1
-        
-        # 3. If a product filled the column perfectly, reset for the next one
-        if row >= rows:
-            row = 0
-            col += 1
-            
+            # Look for the FIRST product in our sorted list that fits in this gap
+            for idx, p in enumerate(remaining_products):
+                shelves = int(p.get("shelves_needed", 1))
+                if shelves <= space_available:
+                    # Found one! Place it here
+                    name = p.get("product_name", "Unknown")
+                    for s in range(shelves):
+                        grid[r + s][c] = name
+                    
+                    # Remove it from the list so it isn't placed twice
+                    remaining_products.pop(idx)
+                    break 
+                    
     return grid
 
 # -----------------------------
