@@ -203,9 +203,9 @@ if uploaded_file:
         # -----------------------------
 
         if layout_mode == "Brand Blocking":
-            layout = brand_block_layout(products, rows, cols)
+            layout = brand_block_layout(working_df, rows, cols)
         elif layout_mode == "Vertical":
-            layout = vertical_layout(products, rows, cols)
+            layout = vertical_layout(working_df, rows, cols)
 
         # -----------------------------
         # Metrics
