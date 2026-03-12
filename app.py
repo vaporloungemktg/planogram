@@ -195,10 +195,9 @@ if uploaded_file:
         # Layout Mode
         # -----------------------------
 
-        if layout_mode == "Brand Blocking":
-            layout = continuous_flow(products, rows, cols)
-        
-        elif layout_mode == "Vertical":
+        if layout_style == "Brand Blocking":
+            layout = brand_block_layout(products, rows, cols)
+        elif layout_style == "Vertical":
             layout = vertical_layout(products, rows, cols)
 
         # -----------------------------
