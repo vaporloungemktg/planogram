@@ -111,7 +111,7 @@ if uploaded_file:
 
     layout_mode = st.radio(
         "Layout Style",
-        ["Brand Blocking", "Vertical"]
+        ["Brand Blocking", "Vertical", "Alphabetical", "Recommended"]
     )
 
     col1, col2, col3 = st.columns(3)
@@ -174,12 +174,16 @@ if uploaded_file:
         # -----------------------------
 
         if layout_mode == "Brand Blocking":
-
             layout = continuous_flow(products, rows, cols)
-
-        else:
-
+        
+        elif layout_mode == "Vertical":
             layout = vertical_layout(products, rows, cols)
+        
+        elif layout_mode == "Alphabetical":
+            layout = alphabetical_layout(products, rows, cols)
+        
+        elif layout_mode == "Recommended":
+            layout = recommended_layout(products, rows, cols)
 
         # -----------------------------
         # Metrics
