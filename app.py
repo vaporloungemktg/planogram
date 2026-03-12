@@ -129,7 +129,7 @@ if df is not None:
     # Create a list of all possible cell coordinates (e.g., "A1", "A2"...)
     all_cells = [f"{chr(65+r)}{c+1}" for r in range(rows) for c in range(cols)]
         
-st.subheader("Visual Obstacle Mapper")
+    st.subheader("Visual Obstacle Mapper")
     st.caption("Check the boxes to mark physical obstacles (pillars, bars, etc.)")
 
     # 1. Create a blank grid for the editor
