@@ -17,7 +17,7 @@ brand_palette = {
     "Pillowz": "#bba156",
     "Juice Head": "#f7b8d3",
     "Hyde Strips": "#f8994c",
-    "Beserker": "#b6242f",
+    "Berserker": "#b6242f",
     "Mojo": "#922d7d",
     "Zippix": "#2289bf",
     "Velo Plus": "#8da0cb",
