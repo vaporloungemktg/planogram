@@ -119,20 +119,25 @@ if df is not None:
     # -----------------------------
     # Fixture dimensions
     # -----------------------------
-    
-    # Change lines 102-103 to this:
+   
     rows = st.number_input("Rows", 1, 20, st.session_state.default_rows)
     cols = st.number_input("Columns", 1, 50, st.session_state.default_cols)
 
     # Create a list of all possible cell coordinates (e.g., "A1", "A2"...)
     all_cells = [f"{chr(65+r)}{c+1}" for r in range(rows) for c in range(cols)]
     
-    # Multi-select for the user
     dead_zones = st.multiselect(
-        "Select Restricted Cells (Columns/Products will flow around these):",
+        "Select Restricted Cells (Obstacles):",
         options=all_cells,
         default=[]
     )
+
+# Convert "A1" into coordinates (row, col)
+restricted_coords = []
+for dz in dead_zones:
+    r_idx = ord(dz[0]) - 65
+    c_idx = int(dz[1:]) - 1
+    restricted_coords.append((r_idx, c_idx))
 
 # Convert "A1" into coordinates (0, 0)
 restricted_coords = []
