@@ -105,27 +105,22 @@ def vertical_layout(products, rows, cols):
     # Largest brands first
     # products = sorted(products, key=lambda x: x["shelves_needed"], reverse=True)
 
-    col = 0
     row = 0
-
+    col = 0
     for p in products:
-    
         shelves = int(p["shelves_needed"])
-        products_list = [p["product_name"]]
-    
+        product_name = p["product_name"]
+        
         for _ in range(shelves):
-    
-            if col >= cols:
+            if row >= rows: # If we run out of vertical space, stop
                 break
-    
-            grid[row][col] = products_list[0]
-    
-            row += 1
-    
-            if row >= rows:
-                row = 0
-                col += 1
-
+            grid[row][col] = product_name
+            
+            # This is the "Horizontal Flow" fix:
+            col += 1
+            if col >= cols:
+                col = 0
+                row += 1
     return grid
 
 # -----------------------------
@@ -136,7 +131,7 @@ def alphabetical_layout(products, rows, cols):
 
     grid = create_grid(rows, cols)
 
-    products = sorted(products, key=lambda x: x["product_name"])
+    # products = sorted(products, key=lambda x: x["product_name"])
 
     row = 0
     col = 0
@@ -169,7 +164,7 @@ def recommended_layout(products, rows, cols):
 
     grid = create_grid(rows, cols)
 
-    products = sorted(products, key=lambda x: x["priority"])
+    # products = sorted(products, key=lambda x: x["priority"])
 
     row = 0
     col = 0
