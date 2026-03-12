@@ -83,7 +83,7 @@ def continuous_flow(products, rows, cols):
                     if fits(grid, r, c, height, width, rows, cols):
 
                         product_name = p["product_name"]
-                        place_block(grid, r, c, width, height, product_names, shelves_needed)
+                        place_block(grid, r, c, width, height, product_name, shelves_needed)
 
                         placed = True
                         break
