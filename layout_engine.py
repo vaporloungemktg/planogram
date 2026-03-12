@@ -43,7 +43,7 @@ def place_block(grid, r, c, width, height, product_name, shelves):
 def brand_block_layout(products, rows, cols, restricted_coords=[]):
     grid = [[None for _ in range(cols)] for _ in range(rows)]
     
-    # Pre-fill restricted cells
+    # 1. Pre-fill restricted cells
     for (r, c) in restricted_coords:
         if r < rows and c < cols:
             grid[r][c] = "BLOCKED"
@@ -65,27 +65,35 @@ def brand_block_layout(products, rows, cols, restricted_coords=[]):
             placed = False
             
             while not placed and current_col < cols:
-                # Check if enough vertical space exists in current column (skipping BLOCKED)
-                available = 0
-                for r in range(current_row, rows):
-                    if grid[r][current_col] is None:
-                        available += 1
-                    else:
-                        break # Hit the bottom or a BLOCKED cell
+                # 2. Check if the NEXT set of cells are available AND not BLOCKED
+                available_count = 0
+                temp_row = current_row
                 
-                if shelves <= available:
+                # Look ahead to see if we have a continuous clear run for this product
+                while temp_row < rows and available_count < shelves:
+                    if grid[temp_row][current_col] is None:
+                        available_count += 1
+                        temp_row += 1
+                    else:
+                        break # Hit a BLOCKED cell or another product
+                
+                if available_count == shelves:
+                    # Place the product
                     for i in range(shelves):
                         grid[current_row + i][current_col] = p['product_name']
                     current_row += shelves
                     placed = True
                 else:
-                    # Move to next column
-                    current_col += 1
-                    current_row = 0
-                    
-                if current_row >= rows:
-                    current_col += 1
-                    current_row = 0
+                    # Move down or to the next column if blocked
+                    current_row += 1 
+                    if current_row >= rows:
+                        current_col += 1
+                        current_row = 0
+                        
+                # Safety break to prevent infinite loops if the fixture is too full
+                if current_col >= cols:
+                    break
+
     return grid
 
 
