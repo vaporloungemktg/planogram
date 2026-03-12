@@ -141,22 +141,24 @@ def alphabetical_layout(products, rows, cols):
     col = 0
 
     for p in products:
-
-        name = p["product_name"]
-        shelves = int(p["shelves_needed"])
-
-        for _ in range(shelves):
-
-            if col >= cols:
-                break
-
-            grid[row][col] = name
-
-            row += 1
-
-            if row >= rows:
-                row = 0
+            name = p["product_name"]
+            shelves = int(p["shelves_needed"])
+            
+            # Check if it fits in current column
+            if (rows - row) < shelves:
                 col += 1
+                row = 0
+                
+            for _ in range(shelves):
+                # Only place if within the physical grid
+                if col < cols and row < rows:
+                    grid[row][col] = name
+                
+                # Always advance row/col so no products are skipped
+                row += 1
+                if row >= rows:
+                    row = 0
+                    col += 1
 
     return grid
 
@@ -174,21 +176,20 @@ def recommended_layout(products, rows, cols):
     col = 0
 
     for p in products:
-
-        name = p["product_name"]
-        shelves = int(p["shelves_needed"])
-
-        for _ in range(shelves):
-
-            if col >= cols:
-                break
-
-            grid[row][col] = name
-
-            row += 1
-
-            if row >= rows:
-                row = 0
+            name = p["product_name"]
+            shelves = int(p["shelves_needed"])
+    
+            if (rows - row) < shelves:
                 col += 1
+                row = 0
+    
+            for _ in range(shelves):
+                if col < cols and row < rows:
+                    grid[row][col] = name
+                
+                row += 1
+                if row >= rows:
+                    row = 0
+                    col += 1
 
     return grid
