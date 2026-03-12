@@ -104,7 +104,6 @@ if c4.button("VG"):
     st.session_state.default_cols = 11
 
 
-    restricted_coords.append((r_idx, c_idx))
 
 # Logic to load the data
 df = None
