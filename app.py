@@ -105,10 +105,16 @@ if c4.button("VG"):
 
 
 
-# Logic to load the data
+# Create the uploader first
+uploaded_file = st.file_uploader("Or Upload Custom CSV")
+
+# Then check if it has a file
 df = None
 if uploaded_file:
     df = pd.read_csv(uploaded_file)
+    st.session_state.data_url = None 
+elif st.session_state.data_url:
+    df = pd.read_csv(st.session_state.data_url)
     st.session_state.data_url = None # Clear button choice if file is uploaded
 elif st.session_state.data_url:
     df = pd.read_csv(st.session_state.data_url)
