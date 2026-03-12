@@ -168,12 +168,11 @@ if uploaded_file:
         
         
         elif generate_alpha:
-        
+            # Sort by product_name first, then by size/shelves needed
             working_df = working_df.sort_values(
-                by=["product_name", "shelves_needed"],
+                by=["product_name", "shelves_needed"], 
                 ascending=[True, False]
             )
-        
             st.info("Alphabetical Optimization Active")
         
         
