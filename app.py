@@ -186,7 +186,7 @@ if uploaded_file:
         
             st.info("Priority Optimization Active")
         
-        
+               
         else:
         
             working_df = working_df.sort_values(
@@ -196,13 +196,15 @@ if uploaded_file:
         
             st.info("Standard Layout")
 
+
+        
         # -----------------------------
         # Layout Mode
         # -----------------------------
 
-        if layout_style == "Brand Blocking":
+        if layout_mode == "Brand Blocking":
             layout = brand_block_layout(products, rows, cols)
-        elif layout_style == "Vertical":
+        elif layout_mode == "Vertical":
             layout = vertical_layout(products, rows, cols)
 
         # -----------------------------
