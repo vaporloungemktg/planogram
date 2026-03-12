@@ -1,0 +1,28 @@
+product_name,brand_key,flavor_count,strength_count,capacity_per_foot,price,tier,priority,section
+Cloud Nurdz,Cloud Nurdz,8,2,4,21.99,Premium,1,Salt Nic
+Pod Juice,Pod Juice,8,2,4,21.99,Premium,2,Salt Nic
+Coastal Clouds,Coastal Clouds,8,2,4,20.99,Premium,3,Salt Nic
+MRKT PLCE,MRKT PLCE,8,2,4,20.99,Premium,4,Salt Nic
+Twist,Twist,8,2,4,20.99,Premium,5,Salt Nic
+Pacha,Pacha,8,2,4,19.99,Premium,6,Salt Nic
+BSX,BSX,8,2,4,21.99,Premium,7,Salt Nic
+Juice Head,Juice Head,4,2,4,21.99,Core,8,Salt Nic
+Zen Haus,Zen Haus,4,2,4,21.99,Core,9,Salt Nic
+Sadboy,Sadboy,4,2,4,21.99,Core,10,Salt Nic
+RAZ Gush,RAZ Gush,4,2,4,21.99,Core,11,Salt Nic
+Cloud Nine,Cloud Nine,4,2,4,20.99,Core,12,Salt Nic
+Pulse Liq,Pulse Liq,4,2,4,20.99,Core,13,Salt Nic
+Craving Custard,Craving Custard,4,2,4,20.99,Core,14,Salt Nic
+Noms,Noms,4,2,4,19.99,Value,15,Salt Nic
+Pod Salt,Pod Salt,4,2,4,19.99,Value,16,Salt Nic
+Kilo,Kilo,4,2,4,19.99,Value,17,Salt Nic
+Pod Burst,Pod Burst,4,2,4,19.99,Value,18,Salt Nic
+Fusion,Fusion,4,2,4,19.99,Value,19,Salt Nic
+Reds,Reds,4,2,4,19.99,Value,20,Salt Nic
+Vapetasia,Vapetasia,4,2,4,18.99,Value,21,Salt Nic
+Better Salt,Better Salt,4,2,4,18.99,Value,22,Salt Nic
+Ripe Vapes,Ripe Vapes,4,2,4,19.99,Value,23,Salt Nic
+Humble,Humble,4,1,4,21.99,Core,24,Salt Nic
+Cassadaga,Cassadaga,4,1,4,21.99,Core,25,Salt Nic
+Barista Brew,Barista Brew,4,1,4,23.99,Core,26,Salt Nic
+Watson,Watson,4,1,4,21.99,Core,27,Salt Nic
