@@ -70,24 +70,28 @@ c1, c2, c3, c4 = st.columns(4)
 github_base = "https://raw.githubusercontent.com/vaporloungemktg/planogram/main/"
 
 selected_file = None
+# Initialize session state so the app remembers your choice
+if "data_url" not in st.session_state:
+    st.session_state.data_url = None
 
 if c1.button("Novelty"):
-    selected_file = github_base + "products_novelty.csv"
+    st.session_state.data_url = github_base + "products_novelty.csv"
 if c2.button("Disposables"):
-    selected_file = github_base + "products_dispo.csv"
+    st.session_state.data_url = github_base + "products_dispo.csv"
 if c3.button("Salt Nic"):
-    selected_file = github_base + "products_saltnic.csv"
+    st.session_state.data_url = github_base + "products_saltnic.csv"
 if c4.button("VG"):
-    selected_file = github_base + "products_vg.csv"
+    st.session_state.data_url = github_base + "products_vg.csv"
 
 uploaded_file = st.file_uploader("Or Upload Custom CSV")
 
-# Final Data Loading Logic
+# Logic to load the data
 df = None
-if selected_file:
-    df = pd.read_csv(selected_file)
-elif uploaded_file:
+if uploaded_file:
     df = pd.read_csv(uploaded_file)
+    st.session_state.data_url = None # Clear button choice if file is uploaded
+elif st.session_state.data_url:
+    df = pd.read_csv(st.session_state.data_url)
 
 if df is not None:
     # Your existing code (indent everything below this line!)
@@ -103,11 +107,7 @@ if df is not None:
     # -----------------------------
     # Main App
     # -----------------------------
-    
-    if uploaded_file:
-    
-        df = pd.read_csv(uploaded_file)
-    
+        
         numeric_columns = [
             "flavor_count",
             "strength_count",
