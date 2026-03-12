@@ -11,21 +11,23 @@ from layout_engine import brand_block_layout, vertical_layout
 # -----------------------------
 
 brand_palette = {
-    "Zyn": "#e41a1c",
-    "Wyn": "#fff700",
-    "Nic Nic": "#ffd92f",
-    "Pillowz": "#4daf4a",
-    "Juice Head": "#00bfc4",
-    "Hyde Strips": "#f781bf",
-    "Berker": "#a65628",
+    "Zyn": "#00b2e4",
+    "Wyn": "#65a1d7",
+    "Nic Nic": "#b3b7bd",
+    "Pillowz": "#bba156",
+    "Juice Head": "#fff271",
+    "Hyde Strips": "#f8994c",
+    "Berker": "#b6242f",
     "Mojo": "#66a61e",
-    "Zippix": "#a6d854",
+    "Zippix": "#2289bf",
     "Velo Plus": "#8da0cb",
-    "On!": "#4dd2ff",
-    "Rogue": "#ff0055",
-    "NiQ": "#7cd859",
+    "NiQ": "#634eca",
     "Zimo": "#8dd3c7",
-    "BSX": "#4dd07f"
+    "BSX": "#4dd07f",
+    "Alps": "#3b5ba9",
+    "Zimo": "#39a290",
+    "On!": "#f15523",
+    "Rogue": "#45b649"
 }
 
 
