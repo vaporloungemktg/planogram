@@ -108,19 +108,24 @@ if uploaded_file:
     # -----------------------------
 
     st.subheader("Planogram Controls")
-
+    
     layout_mode = st.radio(
         "Layout Style",
         ["Brand Blocking", "Vertical"]
     )
-
+    
+    # Row 1
     col1, col2, col3 = st.columns(3)
-
+    
     generate_default = col1.button("Generate Planogram")
     generate_tier = col2.button("Optimize by Tier")
     generate_price = col3.button("Optimize by Price")
-    generate_alpha = st.button("Optimize Alphabetically")
-    generate_priority = st.button("Optimize by Priority")
+    
+    # Row 2
+    col4, col5, col6 = st.columns(3)
+    
+    generate_alpha = col4.button("Optimize Alphabetically")
+    generate_priority = col5.button("Optimize by Priority")
 
     # -----------------------------
     # Generate Layout
