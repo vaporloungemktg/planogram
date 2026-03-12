@@ -133,43 +133,35 @@ if uploaded_file:
         # -----------------------------
         # Optimization
         # -----------------------------
-
+        
         if generate_tier:
-
+        
             tier_priority = {
                 "Premium": 0,
                 "Core": 1,
                 "Value": 2
             }
-
+        
             working_df["tier_rank"] = working_df["tier"].map(tier_priority)
-
+        
             working_df = working_df.sort_values(
                 by=["tier_rank", "shelves_needed"],
                 ascending=[True, False]
             )
-
+        
             st.info("Tier Optimization Active")
-
+        
+        
         elif generate_price:
-
+        
             working_df = working_df.sort_values(
                 by=["price", "shelves_needed"],
                 ascending=[False, False]
             )
-
+        
             st.info("Price Optimization Active")
-
-        else:
-
-            working_df = working_df.sort_values(
-                by="shelves_needed",
-                ascending=False
-            )
-
-            st.info("Standard Layout")
-
-
+        
+        
         elif generate_alpha:
         
             working_df = working_df.sort_values(
@@ -178,17 +170,26 @@ if uploaded_file:
             )
         
             st.info("Alphabetical Optimization Active")
-
+        
+        
         elif generate_priority:
-    
+        
             working_df = working_df.sort_values(
                 by=["priority", "shelves_needed"],
                 ascending=[True, False]
             )
         
             st.info("Priority Optimization Active")
-
-        products = working_df.to_dict("records")
+        
+        
+        else:
+        
+            working_df = working_df.sort_values(
+                by="shelves_needed",
+                ascending=False
+            )
+        
+            st.info("Standard Layout")
 
         # -----------------------------
         # Layout Mode
