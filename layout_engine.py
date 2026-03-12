@@ -107,24 +107,28 @@ def vertical_layout(products, rows, cols):
         shelves = int(p.get("shelves_needed", 1))
         product_name = p.get("product_name", "Unknown")
         
-        # Check if it fits in the current column
+        # 1. Check if it fits in the current column
+        # If not, jump to the top of the next column
         if (rows - row) < shelves:
             col += 1
             row = 0
             
-        # Place it ONLY if the column is within our grid range
+        # 2. Attempt to place the product
         for _ in range(shelves):
+            # Only place if we are still within the physical fixture boundaries
             if col < cols and row < rows:
                 grid[row][col] = product_name
                 row += 1
             else:
-                # If we've run out of space, we still 'advance' the logic
-                # so the count reflects missing items
-                row += 1 
-                if row >= rows:
-                    row = 0
-                    col += 1
-                    
+                # If we are out of bounds, we stop placing but 
+                # keep the loop going so the count is accurate
+                continue
+                
+        # 3. If we hit the exact bottom, reset for the next product
+        if row >= rows:
+            row = 0
+            col += 1
+            
     return grid
 
 # -----------------------------
