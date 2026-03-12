@@ -115,10 +115,7 @@ if uploaded_file:
     st.session_state.data_url = None 
 elif st.session_state.data_url:
     df = pd.read_csv(st.session_state.data_url)
-    st.session_state.data_url = None # Clear button choice if file is uploaded
-elif st.session_state.data_url:
-    df = pd.read_csv(st.session_state.data_url)
-
+ 
 if df is not None:
     # Your existing code (indent everything below this line!)
 
@@ -132,46 +129,32 @@ if df is not None:
     # Create a list of all possible cell coordinates (e.g., "A1", "A2"...)
     all_cells = [f"{chr(65+r)}{c+1}" for r in range(rows) for c in range(cols)]
         
-    st.subheader("Visual Obstacle Mapper")
+st.subheader("Visual Obstacle Mapper")
     st.caption("Check the boxes to mark physical obstacles (pillars, bars, etc.)")
-    
-    # 1. Create a blank DataFrame representing your fixture
+
+    # 1. Create a blank grid for the editor
     map_data = pd.DataFrame(
         False, 
         index=[chr(65+i) for i in range(rows)], 
         columns=[str(i+1) for i in range(cols)]
     )
-    
-    # 2. Display the interactive grid
-    # The user clicks checkboxes here
+
+    # 2. The Interactive Checkbox Grid
     edited_map = st.data_editor(
         map_data,
         key="obstacle_editor",
         use_container_width=True,
         column_config={str(i+1): st.column_config.CheckboxColumn(required=True) for i in range(cols)}
     )
-    
-    # 3. Convert those checked boxes into your restricted_coords list
+
+    # 3. Harvest the checked coordinates
     restricted_coords = []
-    for r_idx, row_label in enumerate(edited_map.index):
-        for c_idx, col_label in enumerate(edited_map.columns):
+    for r_idx in range(rows):
+        for c_idx in range(cols):
             if edited_map.iloc[r_idx, c_idx] == True:
-                restricted_coords.append((r_idx, c_idx)))
+                restricted_coords.append((r_idx, c_idx))
 
-# Convert "A1" into coordinates (row, col)
-restricted_coords = []
-for dz in dead_zones:
-    r_idx = ord(dz[0]) - 65
-    c_idx = int(dz[1:]) - 1
-    restricted_coords.append((r_idx, c_idx))
 
-# Convert "A1" into coordinates (0, 0)
-restricted_coords = []
-for dz in dead_zones:
-    r_idx = ord(dz[0]) - 65
-    c_idx = int(dz[1:]) - 1
-    restricted_coords.append((r_idx, c_idx))
-    
     # -----------------------------
     # Main App
     # -----------------------------
