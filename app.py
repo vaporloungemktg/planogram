@@ -61,10 +61,36 @@ def highlight_brands(val):
 st.title("Dynamic Planogram Builder")
 
 # -----------------------------
-# Upload CSV
+# Data Selection
 # -----------------------------
+st.subheader("Select Dataset")
+c1, c2, c3, c4 = st.columns(4)
 
-uploaded_file = st.file_uploader("Upload Product CSV")
+# Update these to match your EXACT GitHub file names
+github_base = "https://raw.githubusercontent.com/vaporloungemktg/planogram/main/"
+
+selected_file = None
+
+if c1.button("Novelty"):
+    selected_file = github_base + "products_novelty.csv"
+if c2.button("Disposables"):
+    selected_file = github_base + "products_dispo.csv"
+if c3.button("Salt Nic"):
+    selected_file = github_base + "products_saltnic.csv"
+if c4.button("VG"):
+    selected_file = github_base + "products_vg.csv"
+
+uploaded_file = st.file_uploader("Or Upload Custom CSV")
+
+# Final Data Loading Logic
+df = None
+if selected_file:
+    df = pd.read_csv(selected_file)
+elif uploaded_file:
+    df = pd.read_csv(uploaded_file)
+
+if df is not None:
+    # Your existing code (indent everything below this line!)
 
 # -----------------------------
 # Fixture dimensions
