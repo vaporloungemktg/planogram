@@ -98,18 +98,24 @@ def brand_block_layout(products, rows, cols):
 # Vertical Layout
 # -----------------------------
 
-def vertical_layout(products, rows, cols):
-    grid = create_grid(rows, cols)
-    # Work with a copy so we can 'pop' items off as they are placed
+def vertical_layout(products, rows, cols, restricted_coords=[]):
+    # Initialize the grid
+    grid = [[None for _ in range(cols)] for _ in range(rows)]
+    
+    # NEW: Mark restricted cells first so the engine skips them
+    for (r, c) in restricted_coords:
+        if r < rows and c < cols:
+            grid[r][c] = "BLOCKED" 
+
     remaining_products = products.copy()
     
     for c in range(cols):
         for r in range(rows):
-            # Skip if this cell was already filled by a multi-shelf product
+            # Skip if cell is occupied OR blocked
             if grid[r][c] is not None:
                 continue
                 
-            # Calculate how many consecutive empty rows are left in this column
+            # Check for consecutive space before the next BLOCKED cell or bottom
             space_available = 0
             for i in range(r, rows):
                 if grid[i][c] is None:
@@ -117,16 +123,14 @@ def vertical_layout(products, rows, cols):
                 else:
                     break
             
-            # Look for the FIRST product in our sorted list that fits in this gap
+            # Find the first product that fits in this specific gap
             for idx, p in enumerate(remaining_products):
                 shelves = int(p.get("shelves_needed", 1))
                 if shelves <= space_available:
-                    # Found one! Place it here
                     name = p.get("product_name", "Unknown")
                     for s in range(shelves):
                         grid[r + s][c] = name
                     
-                    # Remove it from the list so it isn't placed twice
                     remaining_products.pop(idx)
                     break 
                     
