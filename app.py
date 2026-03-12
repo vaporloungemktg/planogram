@@ -111,7 +111,7 @@ if uploaded_file:
 
     layout_mode = st.radio(
         "Layout Style",
-        ["Brand Blocking", "Vertical", "Alphabetical", "Recommended"]
+        ["Brand Blocking", "Vertical"]
     )
 
     col1, col2, col3 = st.columns(3)
@@ -119,12 +119,14 @@ if uploaded_file:
     generate_default = col1.button("Generate Planogram")
     generate_tier = col2.button("Optimize by Tier")
     generate_price = col3.button("Optimize by Price")
+    generate_alpha = st.button("Optimize Alphabetically")
+    generate_priority = st.button("Optimize by Priority")
 
     # -----------------------------
     # Generate Layout
     # -----------------------------
 
-    if generate_default or generate_tier or generate_price:
+    if generate_default or generate_tier or generate_price or generate_alpha or generate_priority:
 
         working_df = df.copy()
 
@@ -167,6 +169,25 @@ if uploaded_file:
 
             st.info("Standard Layout")
 
+
+        elif generate_alpha:
+        
+            working_df = working_df.sort_values(
+                by=["product_name", "shelves_needed"],
+                ascending=[True, False]
+            )
+        
+            st.info("Alphabetical Optimization Active")
+
+        elif generate_priority:
+    
+            working_df = working_df.sort_values(
+                by=["priority", "shelves_needed"],
+                ascending=[True, False]
+            )
+        
+            st.info("Priority Optimization Active")
+
         products = working_df.to_dict("records")
 
         # -----------------------------
@@ -178,12 +199,6 @@ if uploaded_file:
         
         elif layout_mode == "Vertical":
             layout = vertical_layout(products, rows, cols)
-        
-        elif layout_mode == "Alphabetical":
-            layout = alphabetical_layout(products, rows, cols)
-        
-        elif layout_mode == "Recommended":
-            layout = recommended_layout(products, rows, cols)
 
         # -----------------------------
         # Metrics
