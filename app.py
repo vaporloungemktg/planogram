@@ -202,10 +202,13 @@ if uploaded_file:
         # Layout Mode
         # -----------------------------
 
+        # Convert the DataFrame to a list of dictionaries so the engine can read it
+        product_list = working_df.to_dict('records')
+        
         if layout_mode == "Brand Blocking":
-            layout = brand_block_layout(working_df, rows, cols)
+            layout = brand_block_layout(product_list, rows, cols)
         elif layout_mode == "Vertical":
-            layout = vertical_layout(working_df, rows, cols)
+            layout = vertical_layout(product_list, rows, cols)
 
         # -----------------------------
         # Metrics
