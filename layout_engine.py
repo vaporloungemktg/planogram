@@ -127,3 +127,69 @@ def vertical_layout(products, rows, cols):
                 col += 1
 
     return grid
+
+# -----------------------------
+# Alphabetical Layout
+# -----------------------------
+
+def alphabetical_layout(products, rows, cols):
+
+    grid = create_grid(rows, cols)
+
+    products = sorted(products, key=lambda x: x["product_name"])
+
+    row = 0
+    col = 0
+
+    for p in products:
+
+        name = p["product_name"]
+        shelves = int(p["shelves_needed"])
+
+        for _ in range(shelves):
+
+            if col >= cols:
+                break
+
+            grid[row][col] = name
+
+            row += 1
+
+            if row >= rows:
+                row = 0
+                col += 1
+
+    return grid
+
+# -----------------------------
+# Recommended Layout
+# -----------------------------
+
+def recommended_layout(products, rows, cols):
+
+    grid = create_grid(rows, cols)
+
+    products = sorted(products, key=lambda x: x["priority"])
+
+    row = 0
+    col = 0
+
+    for p in products:
+
+        name = p["product_name"]
+        shelves = int(p["shelves_needed"])
+
+        for _ in range(shelves):
+
+            if col >= cols:
+                break
+
+            grid[row][col] = name
+
+            row += 1
+
+            if row >= rows:
+                row = 0
+                col += 1
+
+    return grid
