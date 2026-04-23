@@ -1,7 +1,7 @@
 product_name,brand_key,flavor_count,strength_count,capacity_per_foot,price,tier,priority,section
 Off-Stamp,Off-Stamp,32,1,4,32.99,Premium,1,Disposables
 Yovo,Yovo,20,1,4,27.99,Value,2,Disposables
-RAZ Vue,RAZ,8,2,4,34.99,Premium,3,Disposables
+RAZ Vue,RAZ,8,1,4,34.99,Premium,3,Disposables
 Geek Bar Pulse X,Geek Bar,8,1,4,32.99,Premium,4,Disposables
 Geek Bar Pulse,Geek Bar,8,1,4,27.99,Premium,5,Disposables
 Meloso Mini,Geek Bar,6,1,6,14.99,Value,6,Disposables
@@ -11,22 +11,21 @@ Pod Salt Hit,Pod Salt,8,1,4,32.99,Premium,9,Disposables
 Rifbar Mixpro,Rifbar,8,1,4,32.99,Core,10,Disposables
 HorizonTech 100K,Horizontech,8,1,4,38.99,Premium,11,Disposables
 NiQ Pearl,NiQ,16,1,4,26.99,Premium,12,Disposables
-NiQ Gem,NiQ,8,2,4,18.99,Value,13,Disposables
+NiQ Gem,NiQ,10,1,5,18.99,Value,13,Disposables
 Hyper Bar 70K,Hyper Bar,4,1,4,34.99,Premium,14,Disposables
 Hyper bar Zerofog,Hyper bar,8,1,4,32.99,Premium,15,Disposables
 Lost Mary MT35K,Lost Mary,8,1,4,29.99,Core,16,Disposables
-Humble Fifty,Fifty Bar,8,2,4,29.99,Core,17,Disposables
+Humble Fifty,Fifty Bar,8,1,4,29.99,Core,17,Disposables
 Adjust MyRusher,Adjust,4,1,4,29.99,Core,18,Disposables
 OVNS Firework,OVNS,8,1,4,28.99,Core,19,Disposables
-Adjust MyCool,Adjust,8,1,4,29.99,Core,20,Disposables
-MNKE Bar XL,MNKE,12,1,4,29.99,Core,21,Disposables
-Fifty Bar,Fifty Bar,8,1,4,29.99,Core,22,Disposables
-Rodman MVP,Rodman,4,1,4,32.99,Core,23,Disposables
-Starbuzz E-Hose,Starbuzz E-Hose,8,1,4,29.99,Premium,24,Disposables
-Pod Salt Onyx Cloud X,Pod Salt,8,1,4,29.99,Core,25,Disposables
-Keep it 100 20mg,Keep it 100 20mg,8,1,4,24.99,Value,26,Disposables
-Lost mary MT15K,Lost Mary,4,1,4,21.99,Value,27,Disposables
-Nic Less,Nic Less,8,1,4,22.99,Value,28,Disposables
-Lost Mary Zero,Lost Mary,4,1,4,21.99,Value,29,Disposables
-MNKE Bar Zero,MNKE,4,1,4,24.99,Value,30,Disposables
-Flonq Zero,Flonq,8,1,4,19.99,Value,31,Disposables
+MNKE Bar XL,MNKE,12,1,4,29.99,Core,20,Disposables
+Fifty Bar,Fifty Bar,8,1,4,29.99,Core,21,Disposables
+Rodman MVP,Rodman,4,1,4,32.99,Core,22,Disposables
+Starbuzz E-Hose,Starbuzz E-Hose,8,1,4,29.99,Premium,23,Disposables
+Pod Salt Onyx Cloud X,Pod Salt,8,1,4,29.99,Core,24,Disposables
+Keep it 100 20mg,Keep it 100 20mg,8,1,4,24.99,Value,25,Disposables
+Lost mary MT15K,Lost Mary,4,1,4,21.99,Value,26,Disposables
+Nic Less,Nic Less,8,1,4,22.99,Value,27,Disposables
+Lost Mary Zero,Lost Mary,4,1,4,21.99,Value,28,Disposables
+MNKE Bar Zero,MNKE,4,1,4,24.99,Value,29,Disposables
+Flonq Zero,Flonq,8,1,4,19.99,Value,30,Disposables
