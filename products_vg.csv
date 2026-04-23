@@ -2,28 +2,26 @@ product_name,brand_key,flavor_count,strength_count,capacity_per_foot,price,tier,
 Juice Head,Juice Head,12,2,4,25.99,Premium,1,VG
 Noms,Noms,12,2,4,24.99,Premium,2,VG
 BSX,BSX,12,2,4,21.99,Premium,3,VG
-Coastal Clouds,Coastal Clouds,12,2,4,20.99,Premium,4,VG
 MRKT PLCE,MRKT PLCE,8,2,4,24.99,Premium,5,VG
+Coastal Clouds,Coastal Clouds,12,2,4,20.99,Premium,4,VG
 Cloud Nurdz,Cloud Nurdz,8,2,4,24.99,Premium,6,VG
 Humble,Humble,8,2,4,23.99,Premium,7,VG
 Vapetasia,Vapetasia,8,2,4,23.99,Premium,8,VG
 Twist,Twist,8,2,4,20.99,Premium,9,VG
 naked,naked,8,3,4,19.99,Core,10,VG
 Five Pawns,Five Pawns,4,3,4,24.99,Core,11,VG
-Craving Custard,Craving Custard,8,3,4,20.99,Core,12,VG
+Craving Custard,Craving Custard,4,3,4,20.99,Core,12,VG
 Beard Vape,Beard Vape,4,2,4,24.99,Core,13,VG
 Coastal Clouds 100ml,Coastal Clouds,4,2,4,24.99,Core,14,VG
 Fusion,Fusion,4,2,4,24.99,Core,15,VG
 Prohibition,Prohibition,4,2,4,24.99,Core,16,VG
 RAZ Gush,RAZ Gush,4,2,4,24.99,Core,17,VG
 Reds,Reds,4,2,4,24.99,Core,18,VG
-Kilo,Kilo,4,2,4,24.99,Core,19,VG
+Pod Juice,Pod Juice,4,2,4,24.99,Core,23,VG
 Ripe Vapes,Ripe Vapes,4,2,4,23.99,Core,20,VG
 Sadboy,Sadboy,4,2,4,24.99,Core,21,VG
 Zen Haus,Zen Haus,4,2,4,24.99,Core,22,VG
-Pod Juice,Pod Juice,4,2,4,24.99,Core,23,VG
 Cassadaga,Cassadaga,4,1,4,21.99,Value,24,VG
 Pacha,Pacha,4,1,4,20.99,Value,25,VG
 Barista Brew,Barista Brew,4,1,4,23.99,Value,26,VG
 Watson,Watson,4,1,4,21.99,Value,27,VG
-
