@@ -5,7 +5,7 @@ MRKT PLCE,MRKT PLCE,8,2,4,20.99,Premium,4,Salt Nic
 Pacha,Pacha,8,2,4,19.99,Premium,6,Salt Nic
 Twist,Twist,8,2,4,20.99,Premium,5,Salt Nic
 RAZ,RAZ,8,2,4,21.99,Core,11,Salt Nic
-BSX,BSX,8,2,4,21.99,Premium,7,Salt Nic
+BSX,BSX,4,2,4,21.99,Premium,7,Salt Nic
 Juice Head,Juice Head,4,2,4,21.99,Core,8,Salt Nic
 Zen Haus,Zen Haus,4,2,4,21.99,Core,9,Salt Nic
 Sadboy,Sadboy,4,2,4,21.99,Core,10,Salt Nic
@@ -22,6 +22,7 @@ Reds,Reds,4,2,4,19.99,Value,20,Salt Nic
 Vapetasia,Vapetasia,4,2,4,18.99,Value,21,Salt Nic
 Better Salt,Better Salt,4,2,4,18.99,Value,22,Salt Nic
 Humble,Humble,4,1,4,21.99,Core,24,Salt Nic
-Cassadaga,Cassadaga,4,1,4,21.99,Core,25,Salt Nic
-Barista Brew,Barista Brew,4,1,4,23.99,Core,26,Salt Nic
-Watson,Watson,4,1,4,21.99,Core,27,Salt Nic
+Cassadaga,Cassadaga,4,1,4,21.99,Core,26,Salt Nic
+Barista Brew,Barista Brew,4,1,4,23.99,Core,27,Salt Nic
+Watson,Watson,4,1,4,21.99,Core,28,Salt Nic
+Kilo,Kilo,4,2,4,18.99,Core,25,Salt Nic
